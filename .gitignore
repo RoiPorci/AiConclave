@@ -5,6 +5,9 @@ obj/
 # Ignore sonarqube directory
 .sonarqube/
 
+# Ignore idea directory
+.idea/
+
 # Ignore logs directory
 Logs/
 *.log
