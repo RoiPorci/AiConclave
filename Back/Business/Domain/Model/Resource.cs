@@ -1,14 +1,19 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Domain.Model
 {
     /// <summary>
-    /// Represents a resource in the system with a unique code, name, and description.
+    /// Represents a resource using the Enum Object pattern.
     /// </summary>
-    public class Resource : ValueObject
+    /// <remarks>
+    /// This class mimics an enumeration while allowing richer object behavior.
+    /// Resources are predefined and identified by a unique <see cref="Code"/>.
+    /// </remarks>
+    public class Resource
     {
         /// <summary>
-        /// Gets the unique code identifying the resource.
+        /// Gets the unique code of the resource.
         /// </summary>
         public string Code { get; }
 
@@ -22,30 +27,6 @@ namespace Business.Domain.Model
         /// </summary>
         public string Description { get; }
 
-        /// <summary>Research & Development resource code.</summary>
-        public const string RESEARCH_CODE = "RND";
-
-        /// <summary>Energy resource code.</summary>
-        public const string ENERGY_CODE = "NRG";
-
-        /// <summary>Materials/Resources resource code.</summary>
-        public const string MATERIALS_CODE = "RES";
-
-        /// <summary>Economy resource code.</summary>
-        public const string ECONOMY_CODE = "ECO";
-
-        /// <summary>Social and political stability resource code.</summary>
-        public const string STABILITY_CODE = "STA";
-
-        /// <summary>Governance resource code.</summary>
-        public const string GOVERNANCE_CODE = "GOV";
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Resource"/> class.
-        /// </summary>
-        /// <param name="code">The unique resource code.</param>
-        /// <param name="name">The name of the resource.</param>
-        /// <param name="description">A brief description of the resource.</param>
         private Resource(string code, string name, string description)
         {
             Code = code;
@@ -53,60 +34,65 @@ namespace Business.Domain.Model
             Description = description;
         }
 
+        /// <summary>
+        /// Research & Development resource.
+        /// </summary>
+        public static readonly Resource Research = new("RND", "Research & Development", "Innovation and technology progress.");
+
+        /// <summary>
+        /// Energy resource.
+        /// </summary>
+        public static readonly Resource Energy = new("NRG", "Energy", "Power production and distribution.");
+
+        /// <summary>
+        /// Materials resource.
+        /// </summary>
+        public static readonly Resource Materials = new("RES", "Materials", "Raw materials and resources.");
+
+        /// <summary>
+        /// Economy resource.
+        /// </summary>
+        public static readonly Resource Economy = new("ECO", "Economy", "Financial and trade stability.");
+
+        /// <summary>
+        /// Stability resource.
+        /// </summary>
+        public static readonly Resource Stability = new("STA", "Stability", "Social and political stability.");
+
+        /// <summary>
+        /// Governance resource.
+        /// </summary>
+        public static readonly Resource Governance = new("GOV", "Governance", "Government and administration.");
+
+        /// <summary>
+        /// Gets a read-only collection of all available resources.
+        /// </summary>
+        public static readonly IReadOnlyCollection<Resource> All = new[]
+        {
+            Research, Energy, Materials, Economy, Stability, Governance
+        };
+
+        /// <summary>
+        /// Retrieves a resource by its code.
+        /// </summary>
+        /// <param name="code">The code of the resource.</param>
+        /// <returns>The corresponding <see cref="Resource"/> if found; otherwise, <see langword="null"/>.</returns>
+        public static Resource? FromCode(string code) => All.FirstOrDefault(r => r.Code == code);
+
+        /// <summary>
+        /// Determines whether the specified code is a valid resource code.
+        /// </summary>
+        /// <param name="code">The code to validate.</param>
+        /// <returns><see langword="true"/> if the code is valid; otherwise, <see langword="false"/>.</returns>
+        public static bool IsValidCode(string code) => All.Any(r => r.Code == code);
+
         /// <inheritdoc/>
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Code; // Equality is based on the Code property
-        }
-
-        /// <summary>
-        /// Creates a new instance of <see cref="Resource"/>.
-        /// </summary>
-        /// <param name="code">The unique resource code.</param>
-        /// <param name="name">The name of the resource.</param>
-        /// <param name="description">A brief description of the resource.</param>
-        /// <returns>A new instance of <see cref="Resource"/>.</returns>
-        internal static Resource Create(string code, string name, string description) 
-            => new Resource(code, name, description);
-
-        /// <summary>
-        /// Retrieves a <see cref="Resource"/> by its code.
-        /// </summary>
-        /// <param name="code">The unique code of the resource.</param>
-        /// <returns>
-        /// A <see cref="Result{T}"/> containing the <see cref="Resource"/> if found,
-        /// or an error message if the code is invalid.
-        /// </returns>
-        public static Result<Resource> GetByCode(string code)
-        {
-            return !ResourceRegistry.Resources.TryGetValue(code, out var resource) 
-                ? Result<Resource>.Failure($"Invalid resource code: {code}") 
-                : Result<Resource>.Success(resource);
-        }
-
-        /// <summary>
-        /// Determines whether a given resource code is valid.
-        /// </summary>
-        /// <param name="code">The resource code to check.</param>
-        /// <returns><see langword="true"/> if the code exists; otherwise, <see langword="false"/>.</returns>
-        public static bool IsValidCode(string code) => ResourceRegistry.Resources.ContainsKey(code);
-
-        /// <summary>
-        /// Gets all available resources.
-        /// </summary>
-        /// <returns>A read-only collection of all <see cref="Resource"/> instances.</returns>
-        public static IReadOnlyCollection<Resource> GetAll() => ResourceRegistry.Resources.Values;
-
-        /// <summary>
-        /// Gets all available resource codes.
-        /// </summary>
-        /// <returns>A read-only collection of all resource codes.</returns>
-        public static IReadOnlyCollection<string> GetAllCodes() => ResourceRegistry.Resources.Keys;
-
-        /// <summary>
-        /// Returns the string representation of the resource, which is its code.
-        /// </summary>
-        /// <returns>The resource code as a string.</returns>
         public override string ToString() => Code;
+
+        /// <inheritdoc/>
+        public override bool Equals(object? obj) => obj is Resource other && Code == other.Code;
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => Code.GetHashCode();
     }
 }
