@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Business.Domain.Validators;
+namespace Business.Domain.Specifications;
 
 /// <summary>
 /// Represents the result of a validation operation, including a list of errors.
