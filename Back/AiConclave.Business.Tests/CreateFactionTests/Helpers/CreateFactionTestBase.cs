@@ -5,18 +5,33 @@ using Moq;
 
 namespace AiConclave.Business.Tests.CreateFactionTests.Helpers;
 
+/// <summary>
+/// Base class for faction creation tests.
+/// Provides common setup and helper methods for test execution and validation.
+/// </summary>
 public abstract class CreateFactionTestBase
 {
+    /// <summary>
+    /// Mock repository for managing factions.
+    /// </summary>
     protected readonly Mock<IFactionRepository> FactionRepositoryMock = new();
-    protected readonly TestPresenter<CreateFactionResponse> Presenter = new();
-    protected readonly CreateFaction  CreateFaction;
 
+    /// <summary>
+    /// Presenter used to capture the response of the use case.
+    /// </summary>
+    protected readonly TestPresenter<CreateFactionResponse> Presenter = new();
+
+    /// <summary>
+    /// The use case instance for creating a faction.
+    /// </summary>
+    protected readonly CreateFaction CreateFaction;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreateFactionTestBase"/> class.
+    /// Sets up dependencies and prepares the test environment.
+    /// </summary>
     protected CreateFactionTestBase()
     {
-        if (FactionRepositoryMock == null)
-            throw new Exception("FactionRepositoryMock est NULL ! Vérifie son initialisation.");
-
-        
         var createFactionRuleChecker = 
             new CreateFactionRuleChecker(FactionRepositoryMock.Object);
         
@@ -24,14 +39,22 @@ public abstract class CreateFactionTestBase
             FactionRepositoryMock.Object, 
             new FactionRuleChecker(), 
             createFactionRuleChecker
-            );
+        );
     }
 
+    /// <summary>
+    /// Executes the faction creation use case with the given request.
+    /// </summary>
+    /// <param name="request">The request containing faction details.</param>
     protected async Task ExecuteRequestAsync(CreateFactionRequest request)
     {
         await CreateFaction.ExecuteAsync(request, Presenter);
     }
-    
+
+    /// <summary>
+    /// Asserts that the response contains the expected error and no valid faction data.
+    /// </summary>
+    /// <param name="expectedError">The expected error message.</param>
     protected void AssertError(string expectedError)
     {
         var response = Presenter.GetResponse();
@@ -45,6 +68,5 @@ public abstract class CreateFactionTestBase
         Assert.Null(response.Code);
         Assert.Null(response.Name);
         Assert.Null(response.Description);
-        
     }
 }

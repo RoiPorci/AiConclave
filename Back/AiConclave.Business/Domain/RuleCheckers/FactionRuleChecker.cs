@@ -9,6 +9,14 @@ namespace AiConclave.Business.Domain.RuleCheckers;
 public class FactionRuleChecker : BaseRuleChecker<Faction>
 {
     /// <summary>
+    /// Initializes a new instance of the <see cref="FactionRuleChecker"/> class.
+    /// </summary>
+    public FactionRuleChecker()
+    {
+        InitializeRules();
+    }
+    
+    /// <summary>
     /// Adds validation rules specific to factions.
     /// </summary>
     protected override void AddRules()
