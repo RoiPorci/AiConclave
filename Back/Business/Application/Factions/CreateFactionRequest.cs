@@ -1,4 +1,6 @@
-namespace Business.Application.Factions;
+using Business.Application;
+
+namespace AiConclave.Business.Application.Factions;
 
 /// <summary>
 /// Request model for creating a new faction.

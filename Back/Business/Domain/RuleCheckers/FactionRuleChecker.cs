@@ -1,7 +1,7 @@
-using Business.Domain.Entities;
-using Business.Domain.Specifications;
+using AiConclave.Business.Domain.Entities;
+using AiConclave.Business.Domain.Specifications;
 
-namespace Business.Domain.RuleCheckers;
+namespace AiConclave.Business.Domain.RuleCheckers;
 
 /// <summary>
 /// Rule checker for validating <see cref="Faction"/> entities.

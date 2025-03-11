@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Business.Domain.Entities;
+using AiConclave.Business.Domain.Entities;
 
-namespace Business.Domain.Specifications;
+namespace AiConclave.Business.Domain.Specifications;
 
 /// <summary>
 /// Specification that ensures a <see cref="Faction"/> has a non-empty name.

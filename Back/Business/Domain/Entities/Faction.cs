@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Business.Domain.Entities;
+namespace AiConclave.Business.Domain.Entities;
 
 /// <summary>
 /// Represents a faction with a unique identifier, name, description, and owned resources.

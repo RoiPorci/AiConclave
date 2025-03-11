@@ -1,4 +1,4 @@
-﻿namespace Business.Application;
+﻿namespace AiConclave.Business.Application;
 
 /// <summary>
 /// Serves as a marker interface for requests sent to use cases, 

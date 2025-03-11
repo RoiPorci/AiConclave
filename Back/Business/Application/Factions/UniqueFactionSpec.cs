@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using Business.Domain.Entities;
-using Business.Domain.Repositories;
-using Business.Domain.Specifications;
+using AiConclave.Business.Domain.Entities;
+using AiConclave.Business.Domain.Repositories;
+using AiConclave.Business.Domain.Specifications;
 
-namespace Business.Application.Factions;
+namespace AiConclave.Business.Application.Factions;
 
 /// <summary>
 /// Specification to ensure that a <see cref="Faction"/> has a unique code and name.

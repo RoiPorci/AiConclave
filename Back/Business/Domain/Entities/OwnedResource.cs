@@ -1,7 +1,7 @@
 using System;
-using Business.Domain.Model;
+using AiConclave.Business.Domain.Model;
 
-namespace Business.Domain.Entities;
+namespace AiConclave.Business.Domain.Entities;
 
 /// <summary>
 /// Represents a resource owned by a faction, including its quantity and related information.

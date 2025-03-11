@@ -1,6 +1,7 @@
 using System;
+using Business.Application;
 
-namespace Business.Application.Factions;
+namespace AiConclave.Business.Application.Factions;
 
 /// <summary>
 /// Response model for the faction creation use case.

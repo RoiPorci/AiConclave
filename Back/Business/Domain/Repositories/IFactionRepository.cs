@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Business.Domain.Entities;
+using AiConclave.Business.Domain.Entities;
 
-namespace Business.Domain.Repositories;
+namespace AiConclave.Business.Domain.Repositories;
 
 /// <summary>
 /// Repository interface for managing <see cref="Faction"/> entities.

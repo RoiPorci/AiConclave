@@ -1,4 +1,6 @@
-﻿namespace Business.Application;
+﻿using Business.Application;
+
+namespace AiConclave.Business.Application;
 
 /// <summary>
 /// Defines a presenter interface for processing and presenting a use case response.

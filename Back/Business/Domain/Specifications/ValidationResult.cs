@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Business.Domain.Specifications;
+namespace AiConclave.Business.Domain.Specifications;
 
 /// <summary>
 /// Represents the result of a validation operation, including a list of errors.

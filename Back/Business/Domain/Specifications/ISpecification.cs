@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Business.Domain.Specifications;
+namespace AiConclave.Business.Domain.Specifications;
 
 /// <summary>
 /// Defines a validation rule for an entity of type <typeparamref name="T"/>.

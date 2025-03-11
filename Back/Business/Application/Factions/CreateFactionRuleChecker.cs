@@ -1,8 +1,9 @@
-using Business.Domain.Entities;
-using Business.Domain.Repositories;
-using Business.Domain.RuleCheckers;
+using AiConclave.Business.Domain.Entities;
+using AiConclave.Business.Domain.Repositories;
+using AiConclave.Business.Domain.RuleCheckers;
+using Business.Application.Factions;
 
-namespace Business.Application.Factions;
+namespace AiConclave.Business.Application.Factions;
 
 /// <summary>
 /// Rule checker for validating the creation of a <see cref="Faction"/>.

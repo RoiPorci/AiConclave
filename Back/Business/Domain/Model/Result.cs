@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Business.Domain.Model;
+namespace AiConclave.Business.Domain.Model;
 
 /// <summary>
 /// Represents the result of an operation, encapsulating success or failure state, a value, and any associated errors.

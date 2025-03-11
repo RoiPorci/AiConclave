@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Business.Domain.Model;
+namespace AiConclave.Business.Domain.Model;
 
 /// <summary>
 /// Represents a resource using the Enum Object pattern.

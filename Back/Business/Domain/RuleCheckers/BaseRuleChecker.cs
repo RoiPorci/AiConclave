@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Business.Domain.Specifications;
+using AiConclave.Business.Domain.Specifications;
 
-namespace Business.Domain.RuleCheckers;
+namespace AiConclave.Business.Domain.RuleCheckers;
 
 /// <summary>
 /// Base class for rule checkers that validate entities against a set of specifications.

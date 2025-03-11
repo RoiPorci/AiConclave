@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Business.Application;
 
-namespace Business.Application;
+namespace AiConclave.Business.Application;
 
 /// <summary>
 /// Defines the structure for a use case, specifying how it should execute its logic.
