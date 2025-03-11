@@ -8,10 +8,17 @@ namespace AiConclave.Business.Application;
 public abstract class UseCaseResponse
 {
     /// <summary>
+    /// Gets and sets a value indicating whether the operation was successful.
+    /// </summary>
+    public bool IsSuccess => Errors.Count == 0;
+    
+    /// <summary>
     /// Gets or sets the list of errors encountered during the operation.
     /// </summary>
     /// <remarks>
     /// This property will contain error messages if the operation fails.
     /// </remarks>
     public List<string> Errors { get; set; } = new List<string>();
+    
+    
 }

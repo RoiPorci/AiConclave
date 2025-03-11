@@ -1,12 +1,10 @@
 using System.Threading.Tasks;
-using AiConclave.Business.Application;
-using AiConclave.Business.Application.Factions;
 using AiConclave.Business.Domain.Entities;
 using AiConclave.Business.Domain.Repositories;
 using AiConclave.Business.Domain.RuleCheckers;
 using AiConclave.Business.Domain.Specifications;
 
-namespace Business.Application.Factions;
+namespace AiConclave.Business.Application.Factions;
 
 /// <summary>
 /// Use case for creating a new <see cref="Faction"/>.
@@ -21,9 +19,15 @@ public class CreateFaction : IUseCase<CreateFactionRequest, CreateFactionRespons
     /// Initializes a new instance of the <see cref="CreateFaction"/> class.
     /// </summary>
     /// <param name="repository">The repository used to manage factions.</param>
-    public CreateFaction(IFactionRepository repository)
+    public CreateFaction(
+        IFactionRepository repository,  
+        FactionRuleChecker factionRuleChecker, 
+        CreateFactionRuleChecker createFactionRuleChecker
+        )
     {
         _repository = repository;
+        _factionRuleChecker = factionRuleChecker;
+        _createFactionRuleChecker = createFactionRuleChecker;
     }
 
     /// <summary>
@@ -83,6 +87,7 @@ public class CreateFaction : IUseCase<CreateFactionRequest, CreateFactionRespons
     private void BuildResponse(CreateFactionResponse response, Faction faction)
     {
         response.FactionId = faction.Id;
+        response.Code = faction.Code;
         response.Name = faction.Name;
         response.Description = faction.Description;
     }

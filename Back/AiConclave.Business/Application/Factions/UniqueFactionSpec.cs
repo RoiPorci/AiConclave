@@ -33,10 +33,10 @@ public class UniqueFactionSpec : ISpecification<Faction>
         var result = new ValidationResult();
         
         if (await _repository.ExistsWithCodeAsync(faction.Code))
-            result.AddError("Code already exists");
+            result.AddError("Code already exists.");
         
         if (await _repository.ExistsWithNameAsync(faction.Name))
-            result.AddError("Name already exists");
+            result.AddError("Name already exists.");
 
         return result;
     }

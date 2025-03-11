@@ -11,15 +11,6 @@ namespace AiConclave.Business.Domain.RuleCheckers;
 public abstract class BaseRuleChecker<T>
 {
     private readonly List<ISpecification<T>> _rules = new();
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BaseRuleChecker{T}"/> class
-    /// and adds the rules defined in <see cref="AddRules"/>.
-    /// </summary>
-    protected BaseRuleChecker()
-    {
-        AddRules();
-    }
     
     /// <summary>
     /// Defines the set of rules that should be applied for validation.
@@ -34,6 +25,11 @@ public abstract class BaseRuleChecker<T>
     protected void AddRule(ISpecification<T> rule)
     {
         _rules.Add(rule);
+    }
+
+    protected void InitializeRules()
+    {
+        AddRules();
     }
 
     /// <summary>

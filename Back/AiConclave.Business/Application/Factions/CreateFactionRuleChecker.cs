@@ -1,7 +1,6 @@
 using AiConclave.Business.Domain.Entities;
 using AiConclave.Business.Domain.Repositories;
 using AiConclave.Business.Domain.RuleCheckers;
-using Business.Application.Factions;
 
 namespace AiConclave.Business.Application.Factions;
 
@@ -20,6 +19,7 @@ public class CreateFactionRuleChecker : BaseRuleChecker<Faction>
     public CreateFactionRuleChecker(IFactionRepository repository)
     {
         _repository = repository;
+        InitializeRules();
     }
 
     /// <summary>
