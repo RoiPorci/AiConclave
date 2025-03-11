@@ -13,6 +13,6 @@ public class FactionRuleChecker : BaseRuleChecker<Faction>
     /// </summary>
     protected override void AddRules()
     {
-        AddRule(new FactionNameRequiredSpec());
+        AddRule(new FactionFieldRequiredSpec());
     }
 }

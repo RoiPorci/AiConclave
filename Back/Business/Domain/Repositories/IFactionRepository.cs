@@ -25,4 +25,8 @@ public interface IFactionRepository
     /// A task representing the asynchronous operation, containing the added <see cref="Faction"/>.
     /// </returns>
     Task<Faction> AddAsync(Faction faction);
+    
+    Task<bool> ExistsWithNameAsync(string name);
+    
+    Task<bool> ExistsWithCodeAsync(string code);
 }

@@ -6,10 +6,10 @@ namespace Business.Domain.Specifications;
 /// <summary>
 /// Specification that ensures a <see cref="Faction"/> has a non-empty name.
 /// </summary>
-public class FactionNameRequiredSpec : ISpecification<Faction>
+public class FactionFieldRequiredSpec : ISpecification<Faction>
 {
     /// <summary>
-    /// Validates that the <see cref="Faction"/> has a name.
+    /// Validates that the <see cref="Faction"/> has a code, a name and a description.
     /// </summary>
     /// <param name="faction">The faction to validate.</param>
     /// <returns>
@@ -19,8 +19,14 @@ public class FactionNameRequiredSpec : ISpecification<Faction>
     {
         var result = new ValidationResult();
 
+        if (string.IsNullOrWhiteSpace(faction.Code))
+            result.AddError("Faction code is required.");
+        
         if (string.IsNullOrWhiteSpace(faction.Name))
             result.AddError("Faction name is required.");
+        
+        if (string.IsNullOrWhiteSpace(faction.Description))
+            result.AddError("Faction description is required.");
 
         return Task.FromResult(result);
     }
