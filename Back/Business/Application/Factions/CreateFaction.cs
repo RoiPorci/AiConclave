@@ -18,7 +18,7 @@ public class CreateFaction : IUseCase<CreateFactionRequest, CreateFactionRespons
         var response = new CreateFactionResponse();
 
         // 1. Build the faction
-        var faction = Faction.Create(request.Name, request.Description);
+        var faction = Faction.Create(request.Code, request.Name, request.Description);
 
         // 2. Validate the faction
 
