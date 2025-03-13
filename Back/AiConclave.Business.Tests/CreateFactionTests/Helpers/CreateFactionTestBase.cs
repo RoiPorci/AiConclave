@@ -24,7 +24,7 @@ public abstract class CreateFactionTestBase
     /// <summary>
     /// The use case instance for creating a faction.
     /// </summary>
-    protected readonly CreateFaction CreateFaction;
+    protected readonly CreateFactionHandler CreateFactionHandler;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateFactionTestBase"/> class.
@@ -35,7 +35,7 @@ public abstract class CreateFactionTestBase
         var createFactionRuleChecker = 
             new CreateFactionRuleChecker(FactionRepositoryMock.Object);
         
-        CreateFaction = new CreateFaction(
+        CreateFactionHandler = new CreateFactionHandler(
             FactionRepositoryMock.Object, 
             new FactionRuleChecker(), 
             createFactionRuleChecker
@@ -43,12 +43,12 @@ public abstract class CreateFactionTestBase
     }
 
     /// <summary>
-    /// Executes the faction creation use case with the given request.
+    /// Executes the faction creation use case with the given command.
     /// </summary>
-    /// <param name="request">The request containing faction details.</param>
-    protected async Task ExecuteRequestAsync(CreateFactionRequest request)
+    /// <param name="command">The command containing faction details.</param>
+    protected async Task ExecuteUseCaseAsync(CreateFactionCommand command)
     {
-        await CreateFaction.ExecuteAsync(request, Presenter);
+        await CreateFactionHandler.Handle(command, CancellationToken.None);
     }
 
     /// <summary>

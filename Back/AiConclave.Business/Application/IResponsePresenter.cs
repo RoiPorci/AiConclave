@@ -3,8 +3,8 @@
 /// <summary>
 /// Defines a presenter interface for processing and presenting a use case response.
 /// </summary>
-/// <typeparam name="T">The type of the use case response, derived from <see cref="UseCaseResponse"/>.</typeparam>
-public interface IUseCasePresenter<in T> where T : UseCaseResponse
+/// <typeparam name="T">The type of the use case response, derived from <see cref="BaseResponse"/>.</typeparam>
+public interface IResponsePresenter<in T> where T : BaseResponse
 {
     /// <summary>
     /// Processes and presents the specified use case response.
