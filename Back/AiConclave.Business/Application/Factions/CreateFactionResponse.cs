@@ -5,7 +5,7 @@ namespace AiConclave.Business.Application.Factions;
 /// <summary>
 /// Response model for the faction creation use case.
 /// </summary>
-public class CreateFactionResponse : UseCaseResponse
+public class CreateFactionResponse : BaseResponse
 {
     /// <summary>
     /// Gets or sets the unique identifier of the created faction.

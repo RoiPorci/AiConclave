@@ -14,9 +14,9 @@ public class CreateFactionDomainTests : CreateFactionTestBase
     [Fact]
     public async Task ShouldReturnError_WhenCodeIsNull()
     {
-        var request = new CreateFactionRequestBuilder().WithCode(null!).Build();
+        var request = new CreateFactionCommandBuilder(Presenter).WithCode(null!).Build();
         
-        await ExecuteRequestAsync(request);
+        await ExecuteUseCaseAsync(request);
         
         AssertError("Faction code is required.");
     }
@@ -27,9 +27,9 @@ public class CreateFactionDomainTests : CreateFactionTestBase
     [Fact]
     public async Task ShouldReturnError_WhenNameIsNull()
     {
-        var request = new CreateFactionRequestBuilder().WithName(null!).Build();
+        var request = new CreateFactionCommandBuilder(Presenter).WithName(null!).Build();
         
-        await ExecuteRequestAsync(request);
+        await ExecuteUseCaseAsync(request);
         
         AssertError("Faction name is required.");
     }
@@ -40,9 +40,9 @@ public class CreateFactionDomainTests : CreateFactionTestBase
     [Fact]
     public async Task ShouldReturnError_WhenDescriptionIsNull()
     {
-        var request = new CreateFactionRequestBuilder().WithDescription(null!).Build();
+        var request = new CreateFactionCommandBuilder(Presenter).WithDescription(null!).Build();
         
-        await ExecuteRequestAsync(request);
+        await ExecuteUseCaseAsync(request);
         
         AssertError("Faction description is required.");
     }
