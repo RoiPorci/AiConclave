@@ -13,7 +13,7 @@ public class CreateFactionSuccessTests : CreateFactionTestBase
     /// Ensures that a faction is successfully created when all validation checks pass.
     /// </summary>
     [Fact]
-    public async Task ShouldReturnSuccess_WhenAllValidtionsPassed()
+    public async Task ShouldReturnSuccess_WhenAllValidationsPassed()
     {
         // Arrange
         var request = new CreateFactionCommandBuilder(Presenter).Build();
