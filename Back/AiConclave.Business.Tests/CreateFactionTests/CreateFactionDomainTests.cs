@@ -14,7 +14,7 @@ public class CreateFactionDomainTests : CreateFactionTestBase
     [Fact]
     public async Task ShouldReturnError_WhenCodeIsNull()
     {
-        var request = new CreateFactionCommandBuilder(Presenter).WithCode(null!).Build();
+        var request = CreateFactionCommandBuilder.WithCode(null!).Build();
         
         await ExecuteUseCaseAsync(request);
         
@@ -27,7 +27,7 @@ public class CreateFactionDomainTests : CreateFactionTestBase
     [Fact]
     public async Task ShouldReturnError_WhenNameIsNull()
     {
-        var request = new CreateFactionCommandBuilder(Presenter).WithName(null!).Build();
+        var request = CreateFactionCommandBuilder.WithName(null!).Build();
         
         await ExecuteUseCaseAsync(request);
         
@@ -40,7 +40,7 @@ public class CreateFactionDomainTests : CreateFactionTestBase
     [Fact]
     public async Task ShouldReturnError_WhenDescriptionIsNull()
     {
-        var request = new CreateFactionCommandBuilder(Presenter).WithDescription(null!).Build();
+        var request = CreateFactionCommandBuilder.WithDescription(null!).Build();
         
         await ExecuteUseCaseAsync(request);
         

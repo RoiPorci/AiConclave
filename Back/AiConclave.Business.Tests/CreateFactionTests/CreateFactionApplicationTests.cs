@@ -15,8 +15,8 @@ public class CreateFactionApplicationTests  : CreateFactionTestBase
     [Fact]
     public async Task ShouldReturnError_WhenCodeIsNotUnique()
     {
-        string duplicateCode = "duplicateCode";
-        var request = new CreateFactionCommandBuilder(Presenter).WithCode(duplicateCode).Build();
+        const string duplicateCode = "duplicateCode";
+        var request = CreateFactionCommandBuilder.WithCode(duplicateCode).Build();
 
         FactionRepositoryMock
             .Setup(repo => repo.ExistsWithCodeAsync(duplicateCode))
@@ -33,9 +33,9 @@ public class CreateFactionApplicationTests  : CreateFactionTestBase
     [Fact]
     public async Task ShouldReturnError_WhenNameIsNotUnique()
     {
-        string duplicateName = "duplicateName";
-        var request = new CreateFactionCommandBuilder(Presenter).WithName(duplicateName).Build();
-
+        var duplicateName = "duplicateName";
+        var request = CreateFactionCommandBuilder.WithName(duplicateName).Build();
+        
         FactionRepositoryMock
             .Setup(repo => repo.ExistsWithNameAsync(duplicateName))
             .ReturnsAsync(true);

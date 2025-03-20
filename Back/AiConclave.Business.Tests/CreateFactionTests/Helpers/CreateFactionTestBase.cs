@@ -16,15 +16,18 @@ public abstract class CreateFactionTestBase
     /// </summary>
     protected readonly Mock<IFactionRepository> FactionRepositoryMock = new();
 
+    protected CreateFactionCommandBuilder CreateFactionCommandBuilder 
+        => new CreateFactionCommandBuilder(_presenter);
+
     /// <summary>
     /// Presenter used to capture the response of the use case.
     /// </summary>
-    protected readonly TestPresenter<CreateFactionResponse> Presenter = new();
+    private readonly TestPresenter<CreateFactionResponse> _presenter = new();
 
     /// <summary>
     /// The use case instance for creating a faction.
     /// </summary>
-    protected readonly CreateFactionHandler CreateFactionHandler;
+    private readonly CreateFactionHandler _createFactionHandler;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateFactionTestBase"/> class.
@@ -35,7 +38,7 @@ public abstract class CreateFactionTestBase
         var createFactionRuleChecker = 
             new CreateFactionRuleChecker(FactionRepositoryMock.Object);
         
-        CreateFactionHandler = new CreateFactionHandler(
+        _createFactionHandler = new CreateFactionHandler(
             FactionRepositoryMock.Object, 
             new FactionRuleChecker(), 
             createFactionRuleChecker
@@ -48,7 +51,7 @@ public abstract class CreateFactionTestBase
     /// <param name="command">The command containing faction details.</param>
     protected async Task ExecuteUseCaseAsync(CreateFactionCommand command)
     {
-        await CreateFactionHandler.Handle(command, CancellationToken.None);
+        await _createFactionHandler.Handle(command, CancellationToken.None);
     }
 
     /// <summary>
@@ -57,7 +60,7 @@ public abstract class CreateFactionTestBase
     /// <param name="expectedError">The expected error message.</param>
     protected void AssertError(string expectedError)
     {
-        var response = Presenter.GetResponse();
+        var response = _presenter.GetResponse();
         
         // Assert operation failed and the expected error occurred
         Assert.False(response.IsSuccess);
@@ -68,5 +71,19 @@ public abstract class CreateFactionTestBase
         Assert.Null(response.Code);
         Assert.Null(response.Name);
         Assert.Null(response.Description);
+    }
+
+    protected void AssertNoErrors(CreateFactionCommand command)
+    {
+        var response = _presenter.GetResponse();
+        
+        // Assert operation succeeded 
+        Assert.True(response.IsSuccess);
+        Assert.NotNull(response.FactionId);
+        
+        // Assert data corresponds to command
+        Assert.Equal(command.Code, response.Code);
+        Assert.Equal(command.Name, response.Name);
+        Assert.Equal(command.Description, response.Description);
     }
 }

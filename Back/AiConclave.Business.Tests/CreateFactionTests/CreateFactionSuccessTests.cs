@@ -16,7 +16,7 @@ public class CreateFactionSuccessTests : CreateFactionTestBase
     public async Task ShouldReturnSuccess_WhenAllValidationsPassed()
     {
         // Arrange
-        var request = new CreateFactionCommandBuilder(Presenter).Build();
+        var request = CreateFactionCommandBuilder.Build();
         
         FactionRepositoryMock
             .Setup(repo => repo.ExistsWithCodeAsync(request.Code))
@@ -32,13 +32,8 @@ public class CreateFactionSuccessTests : CreateFactionTestBase
         
         // Act
         await ExecuteUseCaseAsync(request);
-        var response = Presenter.GetResponse();
         
         // Assert
-        Assert.True(response.IsSuccess);
-        Assert.NotNull(response.FactionId);
-        Assert.Equal(request.Code, response.Code);
-        Assert.Equal(request.Name, response.Name);
-        Assert.Equal(request.Description, response.Description);
+        AssertNoErrors(request);
     }
 }
