@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using AiConclave.Business.Domain.Model;
 
 namespace AiConclave.Business.Domain.Entities;
 
@@ -29,9 +31,11 @@ public class Faction
     public string Description { get; set; }
 
     /// <summary>
-    /// Gets or sets the list of resources owned by the faction.
+    /// Gets the dictionary of owned resources by the faction.
+    /// The key is the resource code, and the value is the corresponding owned resource.
+    /// A faction must always have all resources initialized with an amount of zero.
     /// </summary>
-    public List<OwnedResource> OwnedResources { get; set; }
+    public Dictionary<string, OwnedResource> OwnedResources { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Faction"/> class.
@@ -46,6 +50,36 @@ public class Faction
         Code = code;
         Name = name;
         Description = description;
+        InitializeResources();
+    }
+
+    /// <summary>
+    /// Ensures that a faction always starts with all resources set to zero.
+    /// </summary>
+    private void InitializeResources()
+    {
+        const int initialAmount = 0;
+        
+        OwnedResources = Resource.All.ToDictionary(
+            resource => resource.Code, 
+            resource => OwnedResource.Create(initialAmount, this, resource.Code)
+        );
+    }
+
+    /// <summary>
+    /// Updates the amount of a specific resource owned by the faction.
+    /// </summary>
+    /// <param name="resourceCode">The code of the resource to update.</param>
+    /// <param name="amount">The new amount of the resource.</param>
+    /// <exception cref="ArgumentException">
+    /// Thrown if the resource does not exist in the faction's owned resources.
+    /// </exception>
+    public void UpdateResourceAmount(string resourceCode, int amount)
+    {
+        if (!OwnedResources.TryGetValue(resourceCode, out var ownedResource))
+            throw new ArgumentException($"Resource {resourceCode} does not exist for this faction.");
+
+        ownedResource.Amount = amount;
     }
 
     /// <summary>
@@ -68,4 +102,3 @@ public class Faction
     public Faction() {}  
 #pragma warning restore CS8618
 }
-
