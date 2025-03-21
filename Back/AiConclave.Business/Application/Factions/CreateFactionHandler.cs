@@ -60,7 +60,7 @@ public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFact
         // 3. Save the faction
         await _repository.AddAsync(faction);
 
-        // 4. Return the response
+        // 4. Build and return the response
         BuildResponse(response, faction);
         return response;
     }
