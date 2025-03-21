@@ -8,6 +8,26 @@ namespace AiConclave.Business.Application.Factions;
 public class CreateFactionCommand : IRequestWithPresenter<CreateFactionResponse>
 {
     /// <summary>
+    /// Gets or sets the unique code of the faction.
+    /// </summary>
+    public string Code { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name of the faction.
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets the description of the faction.
+    /// </summary>
+    public string Description { get; set; }
+
+    /// <summary>
+    /// Gets or sets the presenter responsible for handling the response.
+    /// </summary>
+    public IResponsePresenter<CreateFactionResponse> Presenter { get; set; }
+    
+    /// <summary>
     /// Initializes a new instance of the <see cref="CreateFactionCommand"/> class.
     /// </summary>
     /// <param name="code">The unique code of the faction.</param>
@@ -28,24 +48,4 @@ public class CreateFactionCommand : IRequestWithPresenter<CreateFactionResponse>
         Description = description;
         Presenter = presenter ?? throw new ArgumentNullException(nameof(presenter));
     }
-
-    /// <summary>
-    /// Gets or sets the unique code of the faction.
-    /// </summary>
-    public string Code { get; set; }
-
-    /// <summary>
-    /// Gets or sets the name of the faction.
-    /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the description of the faction.
-    /// </summary>
-    public string Description { get; set; }
-
-    /// <summary>
-    /// Gets or sets the presenter responsible for handling the response.
-    /// </summary>
-    public IResponsePresenter<CreateFactionResponse> Presenter { get; set; }
 }
