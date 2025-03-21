@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AiConclave.Business.Domain.Entities;
 
@@ -34,4 +35,20 @@ public interface IFactionRepository
     /// A task representing the asynchronous operation, containing <see langword="true"/> if a faction with the given code exists; otherwise, <see langword="false"/>.
     /// </returns>
     Task<bool> ExistsWithCodeAsync(string code);
+
+    /// <summary>
+    /// Retrieves a faction by its unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the faction.</param>
+    /// <returns>
+    /// A task representing the asynchronous operation, containing the <see cref="Faction"/> if found; otherwise, <see langword="null"/>.
+    /// </returns>
+    Task<Faction?> GetByIdAsync(Guid id);
+
+    /// <summary>
+    /// Updates an existing faction asynchronously.
+    /// </summary>
+    /// <param name="faction">The faction with updated data.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    Task UpdateAsync(Faction faction);
 }
