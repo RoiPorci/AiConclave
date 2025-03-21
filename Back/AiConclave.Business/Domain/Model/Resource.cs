@@ -27,49 +27,60 @@ public class Resource
     /// </summary>
     public string Description { get; }
 
-    private Resource(string code, string name, string description)
+    /// <summary>
+    /// Gets a value indicating whether the resource allows negative values.
+    /// </summary>
+    public bool AllowsNegativeValues { get; }
+
+    private Resource(string code, string name, string description, bool allowsNegativeValues)
     {
         Code = code;
         Name = name;
         Description = description;
+        AllowsNegativeValues = allowsNegativeValues;
     }
 
     /// <summary>
     /// Research and Development resource.
     /// </summary>
-    public static readonly Resource Research = new("RND", "Research & Development", "Innovation and technology progress.");
+    public static readonly Resource Research = new("RND", "Research & Development", "Innovation and technology progress.", false);
 
     /// <summary>
     /// Energy resource.
     /// </summary>
-    public static readonly Resource Energy = new("NRG", "Energy", "Power production and distribution.");
+    public static readonly Resource Energy = new("NRG", "Energy", "Power production and distribution.", false);
 
     /// <summary>
     /// Materials resource.
     /// </summary>
-    public static readonly Resource Materials = new("RES", "Materials", "Raw materials and resources.");
+    public static readonly Resource Materials = new("RES", "Materials", "Raw materials and resources.", false);
 
     /// <summary>
     /// Economy resource.
     /// </summary>
-    public static readonly Resource Economy = new("ECO", "Economy", "Financial and trade stability.");
+    public static readonly Resource Economy = new("ECO", "Economy", "Financial and trade stability.", false);
 
     /// <summary>
     /// Stability resource.
     /// </summary>
-    public static readonly Resource Stability = new("STA", "Stability", "Social and political stability.");
+    public static readonly Resource Stability = new("STA", "Stability", "Social and political stability.", false);
 
     /// <summary>
     /// Governance resource.
     /// </summary>
-    public static readonly Resource Governance = new("GOV", "Governance", "Government and administration.");
+    public static readonly Resource Governance = new("GOV", "Governance", "Government and administration.", false);
+
+    /// <summary>
+    /// Carbon emissions resource (can be negative).
+    /// </summary>
+    public static readonly Resource CO2 = new("CO2", "Carbon Emissions", "Pollution emitted", true);
 
     /// <summary>
     /// Gets a read-only collection of all available resources.
     /// </summary>
     public static readonly IReadOnlyCollection<Resource> All = new[]
     {
-        Research, Energy, Materials, Economy, Stability, Governance
+        Research, Energy, Materials, Economy, Stability, Governance, CO2
     };
 
     /// <summary>
