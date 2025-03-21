@@ -1,4 +1,4 @@
-name: Business CI
+name: Back CI
 
 on:
   push:
@@ -8,51 +8,51 @@ on:
 
 jobs:
   restore:
-    name: 📦 Restore Dependencies
+    name: 📦 Restore dependencies
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: 🧰 Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore
-        run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore Back/AiConclave.Api.sln
 
   build:
-    name: 🔨 Build Project
+    name: 🔨 Build project
     runs-on: ubuntu-latest
     needs: restore
 
     steps:
-      - name: Checkout
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: 🧰 Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
+      - name: Build solution
+        run: dotnet build Back/AiConclave.Api.sln --configuration Release --no-restore
 
   test:
-    name: ✅ Run Tests
+    name: ✅ Run tests
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-      - name: Checkout
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: 🧰 Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
-      - name: Test
-        run: dotnet test --no-build --configuration Release --verbosity normal --logger trx
+      - name: Run unit tests
+        run: dotnet test Back/AiConclave.Api.sln --no-build --configuration Release --verbosity normal --logger trx
