@@ -1,4 +1,6 @@
 using AiConclave.Business.Application.Factions;
+using AiConclave.Business.Domain.Entities;
+using AiConclave.Business.Domain.Model;
 using AiConclave.Business.Domain.Repositories;
 using AiConclave.Business.Domain.RuleCheckers;
 using Moq;
@@ -85,5 +87,23 @@ public abstract class CreateFactionTestBase
         Assert.Equal(command.Code, response.Code);
         Assert.Equal(command.Name, response.Name);
         Assert.Equal(command.Description, response.Description);
+    }
+    
+    /// <summary>
+    /// Asserts that all faction resources are initialized and their amounts are zero.
+    /// </summary>
+    /// <param name="faction">The faction to check.</param>
+    protected void AssertResourcesInitializedToZero(Faction faction)
+    {
+        Assert.NotNull(faction.OwnedResources);
+        Assert.Equal(Resource.All.Count, faction.OwnedResources.Count);
+
+        foreach (var resource in Resource.All)
+        {
+            Assert.True(faction.OwnedResources.ContainsKey(resource.Code), 
+                $"Resource '{resource.Code}' is missing.");
+            
+            Assert.Equal(0, faction.OwnedResources[resource.Code].Amount);
+        }
     }
 }
