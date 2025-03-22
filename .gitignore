@@ -4,6 +4,7 @@ obj/
 
 # Ignore sonarqube directory
 .sonarqube/
+sonarqube-local-scan.bat
 
 # Ignore idea directory
 .idea/
@@ -11,6 +12,9 @@ obj/
 # Ignore logs directory
 Logs/
 *.log
+
+# Ignore tests result directory
+Back/AiConclave.Business.Tests/TestResults/
 
 # Ignore build directories (bin and obj) in all projects
 **/bin/

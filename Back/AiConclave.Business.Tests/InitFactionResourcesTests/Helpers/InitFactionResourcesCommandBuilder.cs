@@ -4,11 +4,12 @@ using AiConclave.Business.Domain.Model;
 namespace AiConclave.Business.Tests.InitFactionResourcesTests.Helpers;
 
 /// <summary>
-/// Builder class for creating instances of <see cref="InitFactionResourcesCommand"/>.
-/// Provides methods to customize command properties for testing.
+///     Builder class for creating instances of <see cref="InitFactionResourcesCommand" />.
+///     Provides methods to customize command properties for testing.
 /// </summary>
 public class InitFactionResourcesCommandBuilder
 {
+    private readonly TestPresenter<InitFactionResourcesResponse> _presenter;
     private Guid _factionId = Guid.NewGuid();
 
     private List<ResourceAmountDto> _resourceAmounts = Resource.All.Select(r =>
@@ -18,10 +19,8 @@ public class InitFactionResourcesCommandBuilder
         return new ResourceAmountDto(r.Code, amount);
     }).ToList();
 
-    private readonly TestPresenter<InitFactionResourcesResponse> _presenter;
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="InitFactionResourcesCommandBuilder"/> class.
+    ///     Initializes a new instance of the <see cref="InitFactionResourcesCommandBuilder" /> class.
     /// </summary>
     /// <param name="presenter">The test presenter to be used in the command.</param>
     public InitFactionResourcesCommandBuilder(TestPresenter<InitFactionResourcesResponse> presenter)
@@ -30,10 +29,10 @@ public class InitFactionResourcesCommandBuilder
     }
 
     /// <summary>
-    /// Sets the faction ID to use in the command.
+    ///     Sets the faction ID to use in the command.
     /// </summary>
     /// <param name="id">The faction identifier.</param>
-    /// <returns>The current <see cref="InitFactionResourcesCommandBuilder"/> instance.</returns>
+    /// <returns>The current <see cref="InitFactionResourcesCommandBuilder" /> instance.</returns>
     public InitFactionResourcesCommandBuilder WithFactionId(Guid id)
     {
         _factionId = id;
@@ -41,31 +40,27 @@ public class InitFactionResourcesCommandBuilder
     }
 
     /// <summary>
-    /// Sets or updates the amount for a specific resource in the command.
+    ///     Sets or updates the amount for a specific resource in the command.
     /// </summary>
     /// <param name="resource">The resource to set or update.</param>
     /// <param name="amount">The amount to assign to the resource.</param>
-    /// <returns>The current <see cref="InitFactionResourcesCommandBuilder"/> instance.</returns>
+    /// <returns>The current <see cref="InitFactionResourcesCommandBuilder" /> instance.</returns>
     public InitFactionResourcesCommandBuilder WithResource(Resource resource, int amount)
     {
         var existing = _resourceAmounts.FirstOrDefault(r => r.ResourceCode == resource.Code);
         if (existing != null)
-        {
             existing.Amount = amount;
-        }
         else
-        {
             _resourceAmounts.Add(new ResourceAmountDto(resource.Code, amount));
-        }
 
         return this;
     }
 
     /// <summary>
-    /// Replaces the full list of resource amounts to be used in the command.
+    ///     Replaces the full list of resource amounts to be used in the command.
     /// </summary>
-    /// <param name="amounts">A list of <see cref="ResourceAmountDto"/> representing the resource allocations.</param>
-    /// <returns>The current <see cref="InitFactionResourcesCommandBuilder"/> instance.</returns>
+    /// <param name="amounts">A list of <see cref="ResourceAmountDto" /> representing the resource allocations.</param>
+    /// <returns>The current <see cref="InitFactionResourcesCommandBuilder" /> instance.</returns>
     public InitFactionResourcesCommandBuilder WithResourceAmounts(List<ResourceAmountDto> amounts)
     {
         _resourceAmounts = amounts;
@@ -73,9 +68,9 @@ public class InitFactionResourcesCommandBuilder
     }
 
     /// <summary>
-    /// Builds a <see cref="InitFactionResourcesCommand"/> instance with the configured values.
+    ///     Builds a <see cref="InitFactionResourcesCommand" /> instance with the configured values.
     /// </summary>
-    /// <returns>A new <see cref="InitFactionResourcesCommand"/>.</returns>
+    /// <returns>A new <see cref="InitFactionResourcesCommand" />.</returns>
     public InitFactionResourcesCommand Build()
     {
         return new InitFactionResourcesCommand(_factionId, _resourceAmounts, _presenter);
