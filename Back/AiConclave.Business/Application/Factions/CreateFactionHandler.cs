@@ -87,7 +87,7 @@ public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFact
     /// </summary>
     /// <param name="response">The response to populate.</param>
     /// <param name="faction">The created faction.</param>
-    private void BuildResponse(CreateFactionResponse response, Faction faction)
+    private static void BuildResponse(CreateFactionResponse response, Faction faction)
     {
         response.FactionId = faction.Id;
         response.Code = faction.Code;

@@ -1,4 +1,4 @@
-name: Back CI
+name: Back CI avec SonarCloud
 
 on:
   push:
@@ -14,11 +14,31 @@ jobs:
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: 🔄 Fetch target branch for SonarCloud
+        run: git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
 
       - name: 🧰 Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+
+      - name: 🚦 SonarCloud - Begin Scan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet sonarscanner begin \
+            /k:"RoiPorci_AiConclave" \
+            /o:"roiporci" \
+            /d:sonar.host.url="https://sonarcloud.io" \
+            /d:sonar.token="$SONAR_TOKEN" \
+            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
+            /d:sonar.scanner.scanAll=false
 
       - name: 📦 Restore dependencies
         run: dotnet restore Back/AiConclave.Api.sln
@@ -26,5 +46,17 @@ jobs:
       - name: 🔨 Build solution
         run: dotnet build Back/AiConclave.Api.sln --configuration Release --no-restore
 
-      - name: ✅ Run unit tests
-        run: dotnet test Back/AiConclave.Api.sln --no-build --configuration Release --verbosity normal --logger trx
+      - name: ✅ Run unit tests with coverage (OpenCover)
+        run: |
+          dotnet test Back/AiConclave.Api.sln \
+            --no-build \
+            --configuration Release \
+            --verbosity normal \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+      - name: 🚦 SonarCloud - End Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"

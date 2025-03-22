@@ -25,10 +25,4 @@ public class ResourceAmountDto
         ResourceCode = resourceCode;
         Amount = amount;
     }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ResourceAmountDto"/> class.
-    /// Parameterless constructor required for serialization.
-    /// </summary>
-    public ResourceAmountDto() {}
 }

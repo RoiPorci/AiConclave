@@ -48,7 +48,7 @@ public abstract class InitFactionResourcesTestBase
     /// <param name="name">The faction name (default is "TestName").</param>
     /// <param name="description">The faction description (default is "TestDescription").</param>
     /// <returns>A new <see cref="Faction"/> instance.</returns>
-    protected Faction CreateFaction
+    protected static Faction CreateFaction
     (
         Guid id, 
         string code = "TST", 

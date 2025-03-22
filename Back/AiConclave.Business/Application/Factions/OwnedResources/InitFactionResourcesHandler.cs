@@ -95,7 +95,7 @@ public class InitFactionResourcesHandler : BaseHandler<InitFactionResourcesComma
     /// <param name="command">The command containing the resource amounts.</param>
     /// <param name="faction">The faction to update.</param>
     /// <param name="response">The response to populate in case of error.</param>
-    private void ApplyAmounts(InitFactionResourcesCommand command, Faction faction,
+    private static void ApplyAmounts(InitFactionResourcesCommand command, Faction faction,
         InitFactionResourcesResponse response)
     {
         foreach (var resourceAmount in command.ResourceAmounts)
@@ -131,7 +131,7 @@ public class InitFactionResourcesHandler : BaseHandler<InitFactionResourcesComma
     /// </summary>
     /// <param name="response">The response object to populate.</param>
     /// <param name="faction">The updated faction entity.</param>
-    private void BuildResponse(InitFactionResourcesResponse response, Faction faction)
+    private static void BuildResponse(InitFactionResourcesResponse response, Faction faction)
     {
         response.FactionId = faction.Id;
         response.UpdatedResources = faction.OwnedResources
