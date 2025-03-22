@@ -14,6 +14,12 @@ jobs:
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: 🔄 Fetch target branch for SonarCloud
+        run: git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
 
       - name: 🧰 Setup .NET SDK
         uses: actions/setup-dotnet@v4
@@ -30,8 +36,9 @@ jobs:
             /k:"RoiPorci_AiConclave" \
             /o:"roiporci" \
             /d:sonar.host.url="https://sonarcloud.io" \
-            /d:sonar.login="$SONAR_TOKEN" \
+            /d:sonar.token="$SONAR_TOKEN" \
             /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+            /d:sonar.scanner.scanAll=false
 
       - name: 📦 Restore dependencies
         run: dotnet restore Back/AiConclave.Api.sln
@@ -46,4 +53,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+          dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
