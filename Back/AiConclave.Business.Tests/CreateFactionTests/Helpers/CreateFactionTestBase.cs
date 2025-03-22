@@ -93,7 +93,7 @@ public abstract class CreateFactionTestBase
     /// Asserts that all faction resources are initialized and their amounts are zero.
     /// </summary>
     /// <param name="faction">The faction to check.</param>
-    protected void AssertResourcesInitializedToZero(Faction faction)
+    protected static void AssertResourcesInitializedToZero(Faction faction)
     {
         Assert.NotNull(faction.OwnedResources);
         Assert.Equal(Resource.All.Count, faction.OwnedResources.Count);
