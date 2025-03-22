@@ -16,7 +16,7 @@ public class InitFactionResourcesCommand : IRequestWithPresenter<InitFactionReso
     /// <summary>
     /// Gets or sets the list of resource amounts to assign to the faction.
     /// </summary>
-    public List<ResourceAmountDto> ResourceAmounts { get; set; } = new();
+    public List<ResourceAmountDto> ResourceAmounts { get; set; }
 
     /// <summary>
     /// Gets or sets the presenter responsible for handling the response.
