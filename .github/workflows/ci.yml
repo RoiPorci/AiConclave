@@ -1,4 +1,4 @@
-name: Back CI
+name: Back CI avec SonarCloud
 
 on:
   push:
@@ -30,7 +30,8 @@ jobs:
             /k:"RoiPorci_AiConclave" \
             /o:"roiporci" \
             /d:sonar.host.url="https://sonarcloud.io" \
-            /d:sonar.login="$SONAR_TOKEN"
+            /d:sonar.login="$SONAR_TOKEN" \
+            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
 
       - name: 📦 Restore dependencies
         run: dotnet restore Back/AiConclave.Api.sln
@@ -45,4 +46,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+          dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
