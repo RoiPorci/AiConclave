@@ -14,7 +14,7 @@ public class InitFactionResourcesCommandBuilder
     private List<ResourceAmountDto> _resourceAmounts = Resource.All.Select(r =>
     {
         // Simple distribution: each resource receives 10, except CO2 which receives 0
-        var amount = r.Code == Resource.CO2.Code ? 0 : 10;
+        var amount = r.Code == Resource.Co2.Code ? 0 : 10;
         return new ResourceAmountDto(r.Code, amount);
     }).ToList();
 
