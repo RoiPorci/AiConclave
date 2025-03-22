@@ -8,23 +8,23 @@ using AiConclave.Business.Domain.Specifications;
 namespace AiConclave.Business.Application.Factions;
 
 /// <summary>
-/// Use case for creating a new <see cref="Faction"/>.
+///     Use case for creating a new <see cref="Faction" />.
 /// </summary>
 public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFactionResponse>
 {
-    private readonly IFactionRepository _repository;
-    private readonly FactionRuleChecker _factionRuleChecker;
     private readonly CreateFactionRuleChecker _createFactionRuleChecker;
+    private readonly FactionRuleChecker _factionRuleChecker;
+    private readonly IFactionRepository _repository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CreateFactionHandler"/> class.
+    ///     Initializes a new instance of the <see cref="CreateFactionHandler" /> class.
     /// </summary>
     /// <param name="repository">The repository used to manage factions.</param>
     /// <param name="factionRuleChecker">The general rule checker for faction validation.</param>
     /// <param name="createFactionRuleChecker">The rule checker for creation-specific validation.</param>
     public CreateFactionHandler(
-        IFactionRepository repository,  
-        FactionRuleChecker factionRuleChecker, 
+        IFactionRepository repository,
+        FactionRuleChecker factionRuleChecker,
         CreateFactionRuleChecker createFactionRuleChecker
     )
     {
@@ -32,16 +32,17 @@ public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFact
         _factionRuleChecker = factionRuleChecker;
         _createFactionRuleChecker = createFactionRuleChecker;
     }
-    
+
     /// <summary>
-    /// Handles the creation of a new faction.
+    ///     Handles the creation of a new faction.
     /// </summary>
     /// <param name="command">The command containing the faction details.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>
-    /// A task representing the asynchronous operation, returning a <see cref="CreateFactionResponse"/> instance.
+    ///     A task representing the asynchronous operation, returning a <see cref="CreateFactionResponse" /> instance.
     /// </returns>
-    protected override async Task<CreateFactionResponse> HandleRequest(CreateFactionCommand command, CancellationToken cancellationToken)
+    protected override async Task<CreateFactionResponse> HandleRequest(CreateFactionCommand command,
+        CancellationToken cancellationToken)
     {
         var response = new CreateFactionResponse();
 
@@ -66,11 +67,11 @@ public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFact
     }
 
     /// <summary>
-    /// Validates the faction using rule checkers.
+    ///     Validates the faction using rule checkers.
     /// </summary>
     /// <param name="faction">The faction to validate.</param>
     /// <returns>
-    /// A <see cref="ValidationResult"/> indicating whether the faction is valid.
+    ///     A <see cref="ValidationResult" /> indicating whether the faction is valid.
     /// </returns>
     private async Task<ValidationResult> ValidateAsync(Faction faction)
     {
@@ -78,12 +79,12 @@ public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFact
 
         if (!validationResult.IsValid)
             return validationResult;
-        
+
         return await _createFactionRuleChecker.ValidateAsync(faction);
     }
 
     /// <summary>
-    /// Builds the response object based on the created faction.
+    ///     Builds the response object based on the created faction.
     /// </summary>
     /// <param name="response">The response to populate.</param>
     /// <param name="faction">The created faction.</param>

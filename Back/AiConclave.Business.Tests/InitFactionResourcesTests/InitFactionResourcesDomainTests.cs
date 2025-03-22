@@ -6,12 +6,12 @@ using Moq;
 namespace AiConclave.Business.Tests.InitFactionResourcesTests;
 
 /// <summary>
-/// Domain-level tests for validating business rules related to faction resource initialization.
+///     Domain-level tests for validating business rules related to faction resource initialization.
 /// </summary>
 public class InitFactionResourcesDomainTests : InitFactionResourcesTestBase
 {
     /// <summary>
-    /// Ensures that an error is returned when the total resource amount does not match the expected total.
+    ///     Ensures that an error is returned when the total resource amount does not match the expected total.
     /// </summary>
     [Fact]
     public async Task ShouldReturnError_WhenTotalResourceAmountIsIncorrect()
@@ -27,13 +27,15 @@ public class InitFactionResourcesDomainTests : InitFactionResourcesTestBase
             .ReturnsAsync(faction);
 
         await ExecuteUseCaseAsync(command);
-        
+
         var total = command.ResourceAmounts.Sum(r => r.Amount);
-        AssertError($"The total amount of resources must equal {InitFactionResourcesRuleChecker.ExpectedInitialTotal}, but is {total}.");
+        AssertError(
+            $"The total amount of resources must equal {InitFactionResourcesRuleChecker.ExpectedInitialTotal}, but is {total}.");
     }
 
     /// <summary>
-    /// Ensures that an error is returned when a resource that does not allow negative values is assigned a negative amount.
+    ///     Ensures that an error is returned when a resource that does not allow negative values is assigned a negative
+    ///     amount.
     /// </summary>
     [Fact]
     public async Task ShouldReturnError_WhenNegativeValueIsUsedOnNonNegativeResource()

@@ -5,12 +5,12 @@ using Moq;
 namespace AiConclave.Business.Tests.InitFactionResourcesTests;
 
 /// <summary>
-/// Tests for successful execution of the SetFactionInitialResources use case.
+///     Tests for successful execution of the SetFactionInitialResources use case.
 /// </summary>
 public class InitFactionResourcesSuccessTests : InitFactionResourcesTestBase
 {
     /// <summary>
-    /// Ensures that the use case returns success when all validations pass.
+    ///     Ensures that the use case returns success when all validations pass.
     /// </summary>
     [Fact]
     public async Task ShouldReturnSuccess_WhenAllValidationsPass()

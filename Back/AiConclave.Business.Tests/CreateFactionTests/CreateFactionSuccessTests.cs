@@ -5,12 +5,12 @@ using Moq;
 namespace AiConclave.Business.Tests.CreateFactionTests;
 
 /// <summary>
-/// Tests for successful faction creation when all validations pass.
+///     Tests for successful faction creation when all validations pass.
 /// </summary>
 public class CreateFactionSuccessTests : CreateFactionTestBase
 {
     /// <summary>
-    /// Ensures that a faction is successfully created when all validation checks pass.
+    ///     Ensures that a faction is successfully created when all validation checks pass.
     /// </summary>
     [Fact]
     public async Task ShouldReturnSuccess_WhenAllValidationsPassed()

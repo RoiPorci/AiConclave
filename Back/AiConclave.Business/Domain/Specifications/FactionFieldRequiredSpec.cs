@@ -4,16 +4,16 @@ using AiConclave.Business.Domain.Entities;
 namespace AiConclave.Business.Domain.Specifications;
 
 /// <summary>
-/// Specification that ensures a <see cref="Faction"/> has a non-empty name.
+///     Specification that ensures a <see cref="Faction" /> has a non-empty name.
 /// </summary>
 public class FactionFieldRequiredSpec : ISpecification<Faction>
 {
     /// <summary>
-    /// Validates that the <see cref="Faction"/> has a code, a name and a description.
+    ///     Validates that the <see cref="Faction" /> has a code, a name and a description.
     /// </summary>
     /// <param name="faction">The faction to validate.</param>
     /// <returns>
-    /// A <see cref="ValidationResult"/> containing an error if the name is missing or whitespace.
+    ///     A <see cref="ValidationResult" /> containing an error if the name is missing or whitespace.
     /// </returns>
     public Task<ValidationResult> ValidateAsync(Faction faction)
     {
@@ -21,10 +21,10 @@ public class FactionFieldRequiredSpec : ISpecification<Faction>
 
         if (string.IsNullOrWhiteSpace(faction.Code))
             result.AddError("Faction code is required.");
-        
+
         if (string.IsNullOrWhiteSpace(faction.Name))
             result.AddError("Faction name is required.");
-        
+
         if (string.IsNullOrWhiteSpace(faction.Description))
             result.AddError("Faction description is required.");
 

@@ -11,23 +11,23 @@ using AiConclave.Business.Domain.Specifications;
 namespace AiConclave.Business.Application.Factions.OwnedResources;
 
 /// <summary>
-/// Handler for setting the initial resources of a <see cref="Faction"/>.
+///     Handler for setting the initial resources of a <see cref="Faction" />.
 /// </summary>
 public class InitFactionResourcesHandler : BaseHandler<InitFactionResourcesCommand, InitFactionResourcesResponse>
 {
+    private readonly FactionResourcesRuleChecker _factionResourcesRuleChecker;
     private readonly IFactionRepository _repository;
     private readonly InitFactionResourcesRuleChecker _ruleChecker;
-    private readonly FactionResourcesRuleChecker _factionResourcesRuleChecker;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="InitFactionResourcesHandler"/> class.
+    ///     Initializes a new instance of the <see cref="InitFactionResourcesHandler" /> class.
     /// </summary>
     /// <param name="repository">The faction repository.</param>
     /// <param name="ruleChecker">Checker for initial resource allocation rules.</param>
     /// <param name="factionResourcesRuleChecker">Checker for general faction resource rules.</param>
     public InitFactionResourcesHandler(
         IFactionRepository repository,
-        InitFactionResourcesRuleChecker ruleChecker, 
+        InitFactionResourcesRuleChecker ruleChecker,
         FactionResourcesRuleChecker factionResourcesRuleChecker)
     {
         _repository = repository;
@@ -36,13 +36,13 @@ public class InitFactionResourcesHandler : BaseHandler<InitFactionResourcesComma
     }
 
     /// <summary>
-    /// Handles the resource initialization command for a faction.
+    ///     Handles the resource initialization command for a faction.
     /// </summary>
     /// <param name="command">The command containing resource allocations.</param>
     /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
-    /// <returns>A <see cref="InitFactionResourcesResponse"/> containing the result of the operation.</returns>
+    /// <returns>A <see cref="InitFactionResourcesResponse" /> containing the result of the operation.</returns>
     protected override async Task<InitFactionResourcesResponse> HandleRequest(
-        InitFactionResourcesCommand command, 
+        InitFactionResourcesCommand command,
         CancellationToken cancellationToken
     )
     {
@@ -75,23 +75,23 @@ public class InitFactionResourcesHandler : BaseHandler<InitFactionResourcesComma
     }
 
     /// <summary>
-    /// Retrieves the faction by its identifier and adds an error to the response if not found.
+    ///     Retrieves the faction by its identifier and adds an error to the response if not found.
     /// </summary>
     /// <param name="factionId">The ID of the faction to retrieve.</param>
     /// <param name="response">The response to populate in case of error.</param>
-    /// <returns>The <see cref="Faction"/> if found; otherwise, <see langword="null"/>.</returns>
+    /// <returns>The <see cref="Faction" /> if found; otherwise, <see langword="null" />.</returns>
     private async Task<Faction?> RetrieveFaction(Guid factionId, InitFactionResourcesResponse response)
     {
         var faction = await _repository.GetByIdAsync(factionId);
         if (faction == null)
             response.Errors.Add($"Faction with ID {factionId} not found.");
-        
+
         return faction;
     }
 
     /// <summary>
-    /// Applies the provided resource amounts to the faction's owned resources.
-    /// Adds errors to the response if any resource code is invalid.
+    ///     Applies the provided resource amounts to the faction's owned resources.
+    ///     Adds errors to the response if any resource code is invalid.
     /// </summary>
     /// <param name="command">The command containing the resource amounts.</param>
     /// <param name="faction">The faction to update.</param>
@@ -100,35 +100,29 @@ public class InitFactionResourcesHandler : BaseHandler<InitFactionResourcesComma
         InitFactionResourcesResponse response)
     {
         foreach (var resourceAmount in command.ResourceAmounts)
-        {
             if (Resource.IsValidCode(resourceAmount.ResourceCode))
-            {
                 faction.UpdateResourceAmount(resourceAmount.ResourceCode, resourceAmount.Amount);
-            }
             else
-            {
                 response.Errors.Add($"Invalid resource code: {resourceAmount.ResourceCode}");
-            }
-        }
     }
 
     /// <summary>
-    /// Validates the faction using both general and context-specific resource rule checkers.
+    ///     Validates the faction using both general and context-specific resource rule checkers.
     /// </summary>
     /// <param name="faction">The faction to validate.</param>
-    /// <returns>A <see cref="ValidationResult"/> containing validation errors, if any.</returns>
+    /// <returns>A <see cref="ValidationResult" /> containing validation errors, if any.</returns>
     private async Task<ValidationResult> ValidateAsync(Faction faction)
     {
         var validationResult = await _factionResourcesRuleChecker.ValidateAsync(faction);
-        
+
         if (!validationResult.IsValid)
             return validationResult;
-        
+
         return await _ruleChecker.ValidateAsync(faction);
     }
 
     /// <summary>
-    /// Builds the response DTO based on the updated faction.
+    ///     Builds the response DTO based on the updated faction.
     /// </summary>
     /// <param name="response">The response object to populate.</param>
     /// <param name="faction">The updated faction entity.</param>

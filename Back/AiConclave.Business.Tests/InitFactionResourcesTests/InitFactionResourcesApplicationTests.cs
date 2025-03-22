@@ -7,12 +7,12 @@ using Moq;
 namespace AiConclave.Business.Tests.InitFactionResourcesTests;
 
 /// <summary>
-/// Application-level tests for the SetFactionInitialResources use case.
+///     Application-level tests for the SetFactionInitialResources use case.
 /// </summary>
 public class InitFactionResourcesApplicationTests : InitFactionResourcesTestBase
 {
     /// <summary>
-    /// Verifies that an error is returned when the faction does not exist.
+    ///     Verifies that an error is returned when the faction does not exist.
     /// </summary>
     [Fact]
     public async Task ShouldReturnError_WhenFactionDoesNotExist()
@@ -29,13 +29,13 @@ public class InitFactionResourcesApplicationTests : InitFactionResourcesTestBase
     }
 
     /// <summary>
-    /// Verifies that an error is returned when an invalid resource code is included in the request.
+    ///     Verifies that an error is returned when an invalid resource code is included in the request.
     /// </summary>
     [Fact]
     public async Task ShouldReturnError_WhenInvalidResourceCodeIsProvided()
     {
         const string invalidResourceCode = "INVALID_CODE";
-        
+
         var factionId = Guid.NewGuid();
         var command = CommandBuilder
             .WithFactionId(factionId)
@@ -62,7 +62,7 @@ public class InitFactionResourcesApplicationTests : InitFactionResourcesTestBase
     }
 
     /// <summary>
-    /// Verifies that an error is returned when the initial CO2 resource is negative.
+    ///     Verifies that an error is returned when the initial CO2 resource is negative.
     /// </summary>
     [Fact]
     public async Task ShouldReturnError_WhenCO2IsNegative()
@@ -70,8 +70,8 @@ public class InitFactionResourcesApplicationTests : InitFactionResourcesTestBase
         var factionId = Guid.NewGuid();
         var command = CommandBuilder
             .WithFactionId(factionId)
-            .WithResource(Resource.Co2, -5)         // invalid
-            .WithResource(Resource.Governance, 15)  // adjust to stay at 60
+            .WithResource(Resource.Co2, -5) // invalid
+            .WithResource(Resource.Governance, 15) // adjust to stay at 60
             .Build();
 
         var faction = CreateFaction(factionId, "NEG", "Negative Co2", "Oops");
