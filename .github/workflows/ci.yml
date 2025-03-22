@@ -46,8 +46,14 @@ jobs:
       - name: 🔨 Build solution
         run: dotnet build Back/AiConclave.Api.sln --configuration Release --no-restore
 
-      - name: ✅ Run unit tests with coverage
-        run: dotnet test Back/AiConclave.Api.sln --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
+      - name: ✅ Run unit tests with coverage (OpenCover)
+        run: |
+          dotnet test Back/AiConclave.Api.sln \
+            --no-build \
+            --configuration Release \
+            --verbosity normal \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: 🚦 SonarCloud - End Scan
         env:
