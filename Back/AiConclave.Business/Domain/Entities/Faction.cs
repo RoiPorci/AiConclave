@@ -50,6 +50,7 @@ public class Faction
         Code = code;
         Name = name;
         Description = description;
+        OwnedResources = new Dictionary<string, OwnedResource>();
         InitializeResources();
     }
 
