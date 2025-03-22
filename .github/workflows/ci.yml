@@ -37,7 +37,7 @@ jobs:
             /o:"roiporci" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.token="$SONAR_TOKEN" \
-            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
             /d:sonar.scanner.scanAll=false
 
       - name: 📦 Restore dependencies
