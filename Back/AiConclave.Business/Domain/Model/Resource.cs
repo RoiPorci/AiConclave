@@ -73,14 +73,14 @@ public class Resource
     /// <summary>
     /// Carbon emissions resource (can be negative).
     /// </summary>
-    public static readonly Resource CO2 = new("CO2", "Carbon Emissions", "Pollution emitted", true);
+    public static readonly Resource Co2 = new("Co2", "Carbon Emissions", "Pollution emitted", true);
 
     /// <summary>
     /// Gets a read-only collection of all available resources.
     /// </summary>
     public static readonly IReadOnlyCollection<Resource> All = new[]
     {
-        Research, Energy, Materials, Economy, Stability, Governance, CO2
+        Research, Energy, Materials, Economy, Stability, Governance, Co2
     };
 
     /// <summary>

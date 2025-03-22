@@ -17,7 +17,7 @@ public class InitFactionResourcesDomainTests : InitFactionResourcesTestBase
     public async Task ShouldReturnError_WhenTotalResourceAmountIsIncorrect()
     {
         var command = CommandBuilder
-            .WithResource(Resource.CO2, 4) // instead of 0
+            .WithResource(Resource.Co2, 4) // instead of 0
             .Build();
 
         var faction = CreateFaction(command.FactionId, "ABC", "Test", "Test Desc");
@@ -40,7 +40,7 @@ public class InitFactionResourcesDomainTests : InitFactionResourcesTestBase
     {
         var command = CommandBuilder
             .WithResource(Resource.Research, -10)
-            .WithResource(Resource.CO2, 20) // to keep the total equal to 60
+            .WithResource(Resource.Co2, 20) // to keep the total equal to 60
             .Build();
 
         var faction = CreateFaction(command.FactionId, "XYZ", "Test3", "Negative");

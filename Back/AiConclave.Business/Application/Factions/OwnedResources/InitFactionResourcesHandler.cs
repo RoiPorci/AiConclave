@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AiConclave.Business.Domain.Entities;
+using AiConclave.Business.Domain.Model;
 using AiConclave.Business.Domain.Repositories;
 using AiConclave.Business.Domain.RuleCheckers;
 using AiConclave.Business.Domain.Specifications;
@@ -100,9 +101,9 @@ public class InitFactionResourcesHandler : BaseHandler<InitFactionResourcesComma
     {
         foreach (var resourceAmount in command.ResourceAmounts)
         {
-            if (faction.OwnedResources.TryGetValue(resourceAmount.ResourceCode, out var ownedResource))
+            if (Resource.IsValidCode(resourceAmount.ResourceCode))
             {
-                ownedResource.Amount = resourceAmount.Amount;
+                faction.UpdateResourceAmount(resourceAmount.ResourceCode, resourceAmount.Amount);
             }
             else
             {
