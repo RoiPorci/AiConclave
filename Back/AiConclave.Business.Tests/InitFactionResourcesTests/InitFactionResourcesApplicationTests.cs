@@ -74,7 +74,7 @@ public class InitFactionResourcesApplicationTests : InitFactionResourcesTestBase
             .WithResource(Resource.Governance, 15)  // adjust to stay at 60
             .Build();
 
-        var faction = CreateFaction(factionId, "NEG", "Negative CO2", "Oops");
+        var faction = CreateFaction(factionId, "NEG", "Negative Co2", "Oops");
 
         FactionRepositoryMock
             .Setup(r => r.GetByIdAsync(factionId))
@@ -82,6 +82,6 @@ public class InitFactionResourcesApplicationTests : InitFactionResourcesTestBase
 
         await ExecuteUseCaseAsync(command);
 
-        AssertError("CO2 cannot be negative at initialization.");
+        AssertError("Co2 cannot be negative at initialization.");
     }
 }
