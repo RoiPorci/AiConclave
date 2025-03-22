@@ -70,7 +70,7 @@ public class InitFactionResourcesApplicationTests : InitFactionResourcesTestBase
         var factionId = Guid.NewGuid();
         var command = CommandBuilder
             .WithFactionId(factionId)
-            .WithResource(Resource.CO2, -5)         // invalid
+            .WithResource(Resource.Co2, -5)         // invalid
             .WithResource(Resource.Governance, 15)  // adjust to stay at 60
             .Build();
 

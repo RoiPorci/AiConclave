@@ -24,6 +24,6 @@ public class InitFactionResourcesRuleChecker : BaseRuleChecker<Faction>
     protected override void AddRules()
     {
         AddRule(new TotalResourceAmountEqualsSpec(ExpectedInitialTotal));
-        AddRule(new InitialCO2MustBePositiveSpec()); 
+        AddRule(new InitialCo2MustBePositiveSpec()); 
     }
 }
