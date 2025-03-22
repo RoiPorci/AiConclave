@@ -38,11 +38,11 @@ jobs:
       - name: 🔨 Build solution
         run: dotnet build Back/AiConclave.Api.sln --configuration Release --no-restore
 
-      - name: ✅ Run unit tests
-        run: dotnet test Back/AiConclave.Api.sln --no-build --configuration Release --verbosity normal --logger trx
+      - name: ✅ Run unit tests with coverage
+        run: dotnet test Back/AiConclave.Api.sln --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
 
       - name: 🚦 SonarCloud - End Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+          dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
