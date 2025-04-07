@@ -1,5 +1,4 @@
 using AiConclave.Business.Application.Factions;
-using AiConclave.Business.Application.Factions.DTOs;
 using AiConclave.Business.Domain.Repositories;
 using Moq;
 
@@ -46,16 +45,5 @@ public abstract class ListFactionsTestBase
     protected async Task ExecuteUseCaseAsync(ListFactionsQuery query)
     {
         await _handler.Handle(query, CancellationToken.None);
-    }
-
-    /// <summary>
-    /// Extracts the list of factions from the use case response.
-    /// </summary>
-    /// <returns>A list of <see cref="FactionDto"/> objects from the response.</returns>
-    protected List<FactionDto> GetFactionsFromResponse()
-    {
-        var response = Presenter.GetResponse();
-        Assert.True(response.IsSuccess);
-        return response.Factions;
     }
 }

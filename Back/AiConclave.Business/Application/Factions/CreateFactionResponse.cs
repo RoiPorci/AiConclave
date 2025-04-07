@@ -32,5 +32,5 @@ public class CreateFactionResponse : BaseResponse
     /// <summary>
     ///     Gets or sets the list of initial resources for the faction.
     /// </summary>
-    public List<ResourceAmountDto> InitialResources { get; set; } = new();
+    public List<ResourceAmountDto> InitialResources { get; set; } = [];
 }
