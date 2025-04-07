@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AiConclave.Business.Domain.Entities;
 
@@ -37,6 +38,16 @@ public interface IFactionRepository
     ///     exists; otherwise, <see langword="false" />.
     /// </returns>
     Task<bool> ExistsWithCodeAsync(string code);
+    
+    /// <summary>
+    /// Retrieves a list of factions with their owned resources, sorted by the specified parameters.
+    /// </summary>
+    /// <param name="sortBy">The field by which to sort (e.g., "name", "code").</param>
+    /// <param name="sortOrder">The sort direction ("asc" or "desc").</param>
+    /// <returns>
+    /// A task representing the asynchronous operation, containing a sorted list of <see cref="Faction"/> entities.
+    /// </returns>
+    Task<List<Faction>> GetWithResourcesAsync(string sortBy, string sortOrder);
 
     /// <summary>
     ///     Retrieves a faction by its unique identifier.

@@ -1,4 +1,5 @@
 using AiConclave.Business.Application.Factions;
+using AiConclave.Business.Application.Factions.DTOs;
 using AiConclave.Business.Domain.Model;
 
 namespace AiConclave.Business.Tests.CreateFactionTests.Helpers;

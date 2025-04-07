@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AiConclave.Business.Application.Factions.DTOs;
 using AiConclave.Business.Domain.Entities;
 using AiConclave.Business.Domain.Model;
 using AiConclave.Business.Domain.Repositories;
@@ -119,8 +119,6 @@ public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFact
         response.Code = faction.Code;
         response.Name = faction.Name;
         response.Description = faction.Description;
-        response.InitialResources = faction.OwnedResources
-            .Select(kvp => new ResourceAmountDto(kvp.Key, kvp.Value.Amount))
-            .ToList();
+        response.InitialResources = faction.OwnedResources.MapToDtos();
     }
 }
