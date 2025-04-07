@@ -5,6 +5,13 @@ namespace AiConclave.Business.Application.Factions;
 /// </summary>
 public class ListFactionsQuery : IRequestWithPresenter<ListFactionsResponse>
 {
+    public ListFactionsQuery(string? sortBy, string? sortOrder, IResponsePresenter<ListFactionsResponse> presenter)
+    {
+        SortBy = sortBy;
+        SortOrder = sortOrder;
+        Presenter = presenter;
+    }
+
     /// <summary>
     /// Gets or sets the field by which to sort the factions (e.g., "Name", "Code").
     /// </summary>
