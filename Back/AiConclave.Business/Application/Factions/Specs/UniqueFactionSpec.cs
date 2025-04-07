@@ -3,7 +3,7 @@ using AiConclave.Business.Domain.Entities;
 using AiConclave.Business.Domain.Repositories;
 using AiConclave.Business.Domain.Specifications;
 
-namespace AiConclave.Business.Application.Factions;
+namespace AiConclave.Business.Application.Factions.Specs;
 
 /// <summary>
 ///     Specification to ensure that a <see cref="Faction" /> has a unique code and name.
@@ -33,10 +33,10 @@ public class UniqueFactionSpec : ISpecification<Faction>
         var result = new ValidationResult();
 
         if (await _repository.ExistsWithCodeAsync(faction.Code))
-            result.AddError("Code already exists.");
+            result.AddError($"A faction with code '{faction.Code}' already exists.");
 
         if (await _repository.ExistsWithNameAsync(faction.Name))
-            result.AddError("Name already exists.");
+            result.AddError($"A faction with name '{faction.Name}' already exists.");
 
         return result;
     }

@@ -1,3 +1,4 @@
+using AiConclave.Business.Application.Factions.Specs;
 using AiConclave.Business.Domain.Entities;
 using AiConclave.Business.Domain.Repositories;
 using AiConclave.Business.Domain.RuleCheckers;
@@ -10,6 +11,8 @@ namespace AiConclave.Business.Application.Factions;
 /// </summary>
 public class CreateFactionRuleChecker : BaseRuleChecker<Faction>
 {
+    public const int ExpectedInitResourcesTotalAmount = 60;
+    
     private readonly IFactionRepository _repository;
 
     /// <summary>
@@ -28,5 +31,7 @@ public class CreateFactionRuleChecker : BaseRuleChecker<Faction>
     protected override void AddRules()
     {
         AddRule(new UniqueFactionSpec(_repository));
+        AddRule(new TotalResourceAmountEqualsSpec(ExpectedInitResourcesTotalAmount));
+        AddRule(new InitialCo2MustBePositiveSpec());
     }
 }

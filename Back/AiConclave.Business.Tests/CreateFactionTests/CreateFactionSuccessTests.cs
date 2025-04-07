@@ -1,4 +1,5 @@
 using AiConclave.Business.Domain.Entities;
+using AiConclave.Business.Domain.Model;
 using AiConclave.Business.Tests.CreateFactionTests.Helpers;
 using Moq;
 
@@ -26,20 +27,14 @@ public class CreateFactionSuccessTests : CreateFactionTestBase
             .Setup(repo => repo.ExistsWithNameAsync(request.Name))
             .ReturnsAsync(false);
 
-        Faction createdFaction = null!;
         FactionRepositoryMock
             .Setup(repo => repo.AddAsync(It.IsAny<Faction>()))
-            .ReturnsAsync((Faction faction) =>
-            {
-                createdFaction = faction;
-                return faction;
-            });
+            .ReturnsAsync((Faction faction) => faction);
 
         // Act
         await ExecuteUseCaseAsync(request);
 
         // Assert
         AssertNoErrors(request);
-        AssertResourcesInitializedToZero(createdFaction);
     }
 }

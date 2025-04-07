@@ -3,7 +3,7 @@ using AiConclave.Business.Domain.Entities;
 using AiConclave.Business.Domain.Model;
 using AiConclave.Business.Domain.Specifications;
 
-namespace AiConclave.Business.Application.Factions.OwnedResources;
+namespace AiConclave.Business.Application.Factions.Specs;
 
 /// <summary>
 ///     Specification that ensures the Co2 resource of a <see cref="Faction" /> is present and non-negative at

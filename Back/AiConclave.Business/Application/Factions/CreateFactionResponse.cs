@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace AiConclave.Business.Application.Factions;
 
@@ -26,4 +27,9 @@ public class CreateFactionResponse : BaseResponse
     ///     Gets or sets the description of the created faction.
     /// </summary>
     public string? Description { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the list of initial resources for the faction.
+    /// </summary>
+    public List<ResourceAmountDto> InitialResources { get; set; } = new();
 }

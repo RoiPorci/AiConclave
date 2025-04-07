@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AiConclave.Business.Domain.Entities;
 using AiConclave.Business.Domain.Specifications;
 
-namespace AiConclave.Business.Application.Factions.OwnedResources;
+namespace AiConclave.Business.Application.Factions.Specs;
 
 /// <summary>
 ///     Specification that checks if the total amount of resources owned by a <see cref="Faction" /> equals a given value.
