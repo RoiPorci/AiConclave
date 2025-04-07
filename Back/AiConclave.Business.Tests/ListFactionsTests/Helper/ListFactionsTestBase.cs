@@ -20,16 +20,18 @@ public abstract class ListFactionsTestBase
     /// Presenter used to capture and inspect the use case response.
     /// </summary>
     protected readonly TestPresenter<ListFactionsResponse> Presenter = new();
+    
+    protected readonly ListFactionsSortOptions  SortOptions = new();
 
     private readonly ListFactionsHandler _handler;
-
+    
     /// <summary>
     /// Initializes a new instance of the <see cref="ListFactionsTestBase"/> class.
     /// Sets up the use case handler with mock dependencies.
     /// </summary>
     protected ListFactionsTestBase()
     {
-        _handler = new ListFactionsHandler(new ListFactionsSortOptions(), FactionRepositoryMock.Object);
+        _handler = new ListFactionsHandler(SortOptions, FactionRepositoryMock.Object);
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 using AiConclave.Business.Application;
-using AiConclave.Business.Application.Factions;
 using AiConclave.Business.Domain.Entities;
 using AiConclave.Business.Tests.ListFactionsTests.Helper;
 using Moq;
@@ -27,7 +26,7 @@ public class ListFactionsApplicationTests : ListFactionsTestBase
 
         // The handler will fallback to code + asc
         FactionRepositoryMock
-            .Setup(repo => repo.GetWithResourcesAsync(ListFactionsSortOptions.Code, BaseSortOptions.Ascending))
+            .Setup(repo => repo.GetWithResourcesAsync(SortOptions.DefaultSortBy, BaseSortOptions.DefaultSortOrder))
             .ReturnsAsync(factions.OrderBy(f => f.Code).ToList());
 
         var request = QueryBuilder
