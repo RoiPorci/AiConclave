@@ -1,3 +1,4 @@
+using AiConclave.Business.Application;
 using AiConclave.Business.Application.Factions;
 
 namespace AiConclave.Business.Tests.ListFactionsTests.Helper;
@@ -10,7 +11,7 @@ public class ListFactionsQueryBuilder
 {
     private readonly TestPresenter<ListFactionsResponse> _presenter;
     private string? _sortBy = ListFactionsSortOptions.Code;
-    private string? _sortOrder = "asc";
+    private string? _sortOrder = BaseSortOptions.Ascending;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="ListFactionsQueryBuilder" /> class.
