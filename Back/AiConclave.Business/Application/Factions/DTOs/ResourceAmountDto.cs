@@ -1,4 +1,4 @@
-namespace AiConclave.Business.Application.Factions;
+namespace AiConclave.Business.Application.Factions.DTOs;
 
 /// <summary>
 ///     Data transfer object representing the amount of a specific resource.
