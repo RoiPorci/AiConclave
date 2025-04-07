@@ -22,5 +22,6 @@ public class FactionRuleChecker : BaseRuleChecker<Faction>
     protected override void AddRules()
     {
         AddRule(new FactionFieldRequiredSpec());
+        AddRule(new ResourceAmountsSignSpec());
     }
 }

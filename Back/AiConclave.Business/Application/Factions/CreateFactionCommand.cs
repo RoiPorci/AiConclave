@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace AiConclave.Business.Application.Factions;
 
@@ -13,6 +14,7 @@ public class CreateFactionCommand : IRequestWithPresenter<CreateFactionResponse>
     /// <param name="code">The unique code of the faction.</param>
     /// <param name="name">The name of the faction.</param>
     /// <param name="description">The description of the faction.</param>
+    /// <param name="resourceAmounts">The resource amounts for the faction.</param>
     /// <param name="presenter">The presenter responsible for handling the response.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="presenter" /> is <see langword="null" />.</exception>
     public CreateFactionCommand
@@ -20,12 +22,14 @@ public class CreateFactionCommand : IRequestWithPresenter<CreateFactionResponse>
         string code,
         string name,
         string description,
+        List<ResourceAmountDto> resourceAmounts,
         IResponsePresenter<CreateFactionResponse> presenter
     )
     {
         Code = code;
         Name = name;
         Description = description;
+        ResourceAmounts = resourceAmounts;
         Presenter = presenter ?? throw new ArgumentNullException(nameof(presenter));
     }
 
@@ -43,6 +47,11 @@ public class CreateFactionCommand : IRequestWithPresenter<CreateFactionResponse>
     ///     Gets or sets the description of the faction.
     /// </summary>
     public string Description { get; }
+
+    /// <summary>
+    ///     Gets or sets the resource amounts for the faction.
+    /// </summary>
+    public List<ResourceAmountDto> ResourceAmounts { get; }
 
     /// <summary>
     ///     Gets or sets the presenter responsible for handling the response.

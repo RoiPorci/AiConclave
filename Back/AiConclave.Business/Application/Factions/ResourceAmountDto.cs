@@ -1,4 +1,4 @@
-namespace AiConclave.Business.Application.Factions.OwnedResources;
+namespace AiConclave.Business.Application.Factions;
 
 /// <summary>
 ///     Data transfer object representing the amount of a specific resource.

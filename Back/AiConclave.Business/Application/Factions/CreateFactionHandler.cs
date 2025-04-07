@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AiConclave.Business.Domain.Entities;
+using AiConclave.Business.Domain.Model;
 using AiConclave.Business.Domain.Repositories;
 using AiConclave.Business.Domain.RuleCheckers;
 using AiConclave.Business.Domain.Specifications;
@@ -41,27 +44,32 @@ public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFact
     /// <returns>
     ///     A task representing the asynchronous operation, returning a <see cref="CreateFactionResponse" /> instance.
     /// </returns>
-    protected override async Task<CreateFactionResponse> HandleRequest(CreateFactionCommand command,
+    protected override async Task<CreateFactionResponse> HandleRequest(
+        CreateFactionCommand command,
         CancellationToken cancellationToken)
     {
         var response = new CreateFactionResponse();
 
         // 1. Build the faction
         var faction = Faction.Create(command.Code, command.Name, command.Description);
+        
+        // 2. Apply custom resource amounts
+        ApplyResourceAmounts(command.ResourceAmounts, faction, response);
+        if (!response.IsSuccess)
+            return response;
 
-        // 2. Validate the faction
-        var validationResult = await ValidateAsync(faction);
-
-        if (!validationResult.IsValid)
+        // 3. Validate the faction
+        var factionValidation = await ValidateFactionAsync(faction);
+        if (!factionValidation.IsValid)
         {
-            response.Errors = validationResult.Errors;
+            response.Errors.AddRange(factionValidation.Errors);
             return response;
         }
-
-        // 3. Save the faction
+        
+        // 4. Save the faction with its resources
         await _repository.AddAsync(faction);
 
-        // 4. Build and return the response
+        // 5. Build and return the response
         BuildResponse(response, faction);
         return response;
     }
@@ -73,14 +81,31 @@ public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFact
     /// <returns>
     ///     A <see cref="ValidationResult" /> indicating whether the faction is valid.
     /// </returns>
-    private async Task<ValidationResult> ValidateAsync(Faction faction)
+    private async Task<ValidationResult> ValidateFactionAsync(Faction faction)
     {
         var validationResult = await _factionRuleChecker.ValidateAsync(faction);
-
         if (!validationResult.IsValid)
             return validationResult;
 
         return await _createFactionRuleChecker.ValidateAsync(faction);
+    }
+
+    /// <summary>
+    ///     Applies the provided resource amounts to the faction's owned resources.
+    ///     Adds errors to the response if any resource code is invalid.
+    /// </summary>
+    /// <param name="resourceAmounts">The resource amounts to apply.</param>
+    /// <param name="faction">The faction to update.</param>
+    /// <param name="response">The response to populate in case of error.</param>
+    private static void ApplyResourceAmounts(List<ResourceAmountDto> resourceAmounts, Faction faction, CreateFactionResponse response)
+    {
+        foreach (var resourceAmount in resourceAmounts)
+        {
+            if (Resource.IsValidCode(resourceAmount.ResourceCode))
+                faction.UpdateResourceAmount(resourceAmount.ResourceCode, resourceAmount.Amount);
+            else
+                response.Errors.Add($"Invalid resource code: {resourceAmount.ResourceCode}");
+        }
     }
 
     /// <summary>
@@ -94,5 +119,8 @@ public class CreateFactionHandler : BaseHandler<CreateFactionCommand, CreateFact
         response.Code = faction.Code;
         response.Name = faction.Name;
         response.Description = faction.Description;
+        response.InitialResources = faction.OwnedResources
+            .Select(kvp => new ResourceAmountDto(kvp.Key, kvp.Value.Amount))
+            .ToList();
     }
 }

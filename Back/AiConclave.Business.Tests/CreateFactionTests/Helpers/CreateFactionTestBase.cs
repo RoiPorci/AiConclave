@@ -72,6 +72,7 @@ public abstract class CreateFactionTestBase
         Assert.Null(response.Code);
         Assert.Null(response.Name);
         Assert.Null(response.Description);
+        Assert.Empty(response.InitialResources);
     }
 
     protected void AssertNoErrors(CreateFactionCommand command)
@@ -86,6 +87,15 @@ public abstract class CreateFactionTestBase
         Assert.Equal(command.Code, response.Code);
         Assert.Equal(command.Name, response.Name);
         Assert.Equal(command.Description, response.Description);
+
+        // Assert resources are correctly set
+        Assert.Equal(command.ResourceAmounts.Count, response.InitialResources.Count);
+        foreach (var expected in command.ResourceAmounts)
+        {
+            var actual = response.InitialResources.FirstOrDefault(r => r.ResourceCode == expected.ResourceCode);
+            Assert.NotNull(actual);
+            Assert.Equal(expected.Amount, actual.Amount);
+        }
     }
 
     /// <summary>
