@@ -32,10 +32,10 @@ public class UniqueFactionSpec : ISpecification<Faction>
     {
         var result = new ValidationResult();
 
-        if (await _repository.ExistsWithCodeAsync(faction.Code))
+        if (await _repository.ExistsWithCodeAsync(faction.Code, faction.Id))
             result.AddError($"A faction with code '{faction.Code}' already exists.");
 
-        if (await _repository.ExistsWithNameAsync(faction.Name))
+        if (await _repository.ExistsWithNameAsync(faction.Name, faction.Id))
             result.AddError($"A faction with name '{faction.Name}' already exists.");
 
         return result;
