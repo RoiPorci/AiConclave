@@ -37,22 +37,22 @@ public class CreateFactionCommand : IRequestWithPresenter<CreateFactionResponse>
     /// <summary>
     ///     Gets or sets the unique code of the faction.
     /// </summary>
-    public string Code { get; }
+    public string Code { get; set; }
 
     /// <summary>
     ///     Gets or sets the name of the faction.
     /// </summary>
-    public string Name { get; }
+    public string Name { get; set;}
 
     /// <summary>
     ///     Gets or sets the description of the faction.
     /// </summary>
-    public string Description { get; }
+    public string Description { get; set;}
 
     /// <summary>
     ///     Gets or sets the resource amounts for the faction.
     /// </summary>
-    public List<ResourceAmountDto> ResourceAmounts { get; }
+    public List<ResourceAmountDto> ResourceAmounts { get; set;}
 
     /// <summary>
     ///     Gets or sets the presenter responsible for handling the response.

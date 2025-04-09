@@ -23,21 +23,23 @@ public interface IFactionRepository
     ///     Checks whether a faction with the specified name exists.
     /// </summary>
     /// <param name="name">The name of the faction to check.</param>
+    /// <param name="factionId">The unique id of the faction to check.</param>
     /// <returns>
     ///     A task representing the asynchronous operation, containing <see langword="true" /> if a faction with the given name
     ///     exists; otherwise, <see langword="false" />.
     /// </returns>
-    Task<bool> ExistsWithNameAsync(string name);
+    Task<bool> ExistsWithNameAsync(string name, Guid factionId);
 
     /// <summary>
     ///     Checks whether a faction with the specified code exists.
     /// </summary>
     /// <param name="code">The unique code of the faction to check.</param>
+    /// <param name="factionId">The unique id of the faction to check.</param>
     /// <returns>
     ///     A task representing the asynchronous operation, containing <see langword="true" /> if a faction with the given code
     ///     exists; otherwise, <see langword="false" />.
     /// </returns>
-    Task<bool> ExistsWithCodeAsync(string code);
+    Task<bool> ExistsWithCodeAsync(string code, Guid factionId);
     
     /// <summary>
     /// Retrieves a list of factions with their owned resources, sorted by the specified parameters.
@@ -57,7 +59,7 @@ public interface IFactionRepository
     ///     A task representing the asynchronous operation, containing the <see cref="Faction" /> if found; otherwise,
     ///     <see langword="null" />.
     /// </returns>
-    Task<Faction?> GetByIdAsync(Guid id);
+    Task<Faction?> GetByIdWithResourcesAsync(Guid id);
 
     /// <summary>
     ///     Updates an existing faction asynchronously.

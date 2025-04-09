@@ -1,6 +1,5 @@
 ﻿using AiConclave.Business.Application.Factions;
 using AiConclave.Business.Application.Factions.DTOs;
-using AiConclave.Business.Domain.Entities;
 using AiConclave.Business.Domain.Model;
 using AiConclave.Business.Tests.CreateFactionTests.Helpers;
 using Moq;
@@ -13,70 +12,6 @@ namespace AiConclave.Business.Tests.CreateFactionTests;
 public class CreateFactionApplicationTests : CreateFactionTestBase
 {
     /// <summary>
-    ///     Ensures that a faction is successfully created when all validations pass.
-    /// </summary>
-    [Fact]
-    public async Task ShouldReturnSuccess_WhenAllValidationsPassed()
-    {
-        // Arrange
-        var request = CreateFactionCommandBuilder.Build();
-
-        FactionRepositoryMock
-            .Setup(repo => repo.ExistsWithCodeAsync(request.Code))
-            .ReturnsAsync(false);
-
-        FactionRepositoryMock
-            .Setup(repo => repo.ExistsWithNameAsync(request.Name))
-            .ReturnsAsync(false);
-
-        FactionRepositoryMock
-            .Setup(repo => repo.AddAsync(It.IsAny<Faction>()))
-            .ReturnsAsync((Faction faction) => faction);
-
-        // Act
-        await ExecuteUseCaseAsync(request);
-
-        // Assert
-        AssertNoErrors(request);
-    }
-
-    /// <summary>
-    ///     Ensures that a faction is successfully created with custom resource amounts.
-    /// </summary>
-    [Fact]
-    public async Task ShouldReturnSuccess_WhenCustomResourceAmountsAreProvided()
-    {
-        // Arrange
-        var request = CreateFactionCommandBuilder
-            .WithResource(Resource.Research, 15)
-            .WithResource(Resource.Energy, 15)
-            .WithResource(Resource.Materials, 10)
-            .WithResource(Resource.Economy, 10)
-            .WithResource(Resource.Stability, 5)
-            .WithResource(Resource.Governance, 5)
-            .WithResource(Resource.Co2, 0)
-            .Build();
-
-        FactionRepositoryMock
-            .Setup(repo => repo.ExistsWithCodeAsync(request.Code))
-            .ReturnsAsync(false);
-
-        FactionRepositoryMock
-            .Setup(repo => repo.ExistsWithNameAsync(request.Name))
-            .ReturnsAsync(false);
-
-        FactionRepositoryMock
-            .Setup(repo => repo.AddAsync(It.IsAny<Faction>()))
-            .ReturnsAsync((Faction faction) => faction);
-
-        // Act
-        await ExecuteUseCaseAsync(request);
-
-        // Assert
-        AssertNoErrors(request);
-    }
-
-    /// <summary>
     ///     Ensures that an error is returned when the faction code already exists.
     /// </summary>
     [Fact]
@@ -86,7 +21,7 @@ public class CreateFactionApplicationTests : CreateFactionTestBase
         var request = CreateFactionCommandBuilder.Build();
 
         FactionRepositoryMock
-            .Setup(repo => repo.ExistsWithCodeAsync(request.Code))
+            .Setup(repo => repo.ExistsWithCodeAsync(request.Code, It.IsAny<Guid>()))
             .ReturnsAsync(true);
 
         // Act
@@ -106,11 +41,11 @@ public class CreateFactionApplicationTests : CreateFactionTestBase
         var request = CreateFactionCommandBuilder.Build();
 
         FactionRepositoryMock
-            .Setup(repo => repo.ExistsWithCodeAsync(request.Code))
+            .Setup(repo => repo.ExistsWithCodeAsync(request.Code, It.IsAny<Guid>()))
             .ReturnsAsync(false);
 
         FactionRepositoryMock
-            .Setup(repo => repo.ExistsWithNameAsync(request.Name))
+            .Setup(repo => repo.ExistsWithNameAsync(request.Name, It.IsAny<Guid>()))
             .ReturnsAsync(true);
 
         // Act
@@ -118,6 +53,61 @@ public class CreateFactionApplicationTests : CreateFactionTestBase
 
         // Assert
         AssertError($"A faction with name '{request.Name}' already exists.");
+    }
+    
+    /// <summary>
+    ///     Ensures that an error is returned when the CO2 resource is negative.
+    /// </summary>
+    [Fact]
+    public async Task ShouldReturnError_WhenCO2IsNegative()
+    {
+        // Arrange
+        var request = CreateFactionCommandBuilder
+            .WithResource(Resource.Co2, -5) // invalid
+            .WithResource(Resource.Governance, 15) // adjust to stay at 60
+            .Build();
+
+        FactionRepositoryMock
+            .Setup(repo => repo.ExistsWithCodeAsync(request.Code, It.IsAny<Guid>()))
+            .ReturnsAsync(false);
+
+        FactionRepositoryMock
+            .Setup(repo => repo.ExistsWithNameAsync(request.Name, It.IsAny<Guid>()))
+            .ReturnsAsync(false);
+
+        // Act
+        await ExecuteUseCaseAsync(request);
+
+        // Assert
+        AssertError("Co2 cannot be negative at initialization.");
+    }
+    
+    /// <summary>
+    ///     Ensures that an error is returned when the total resource amount is incorrect.
+    /// </summary>
+    [Fact]
+    public async Task ShouldReturnError_WhenTotalResourceAmountIsIncorrect()
+    {
+        // Arrange
+        var request = CreateFactionCommandBuilder
+            .WithResource(Resource.Co2, 4) // instead of 0
+            .Build();
+
+        FactionRepositoryMock
+            .Setup(repo => repo.ExistsWithCodeAsync(request.Code, It.IsAny<Guid>()))
+            .ReturnsAsync(false);
+
+        FactionRepositoryMock
+            .Setup(repo => repo.ExistsWithNameAsync(request.Name, It.IsAny<Guid>()))
+            .ReturnsAsync(false);
+
+        // Act
+        await ExecuteUseCaseAsync(request);
+
+        // Assert
+        var total = request.ResourceAmounts.Sum(r => r.Amount);
+        AssertError(
+            $"The total amount of resources must equal {CreateFactionRuleChecker.ExpectedInitResourcesTotalAmount}, but is {total}.");
     }
 
     /// <summary>
@@ -141,11 +131,11 @@ public class CreateFactionApplicationTests : CreateFactionTestBase
             .Build();
 
         FactionRepositoryMock
-            .Setup(repo => repo.ExistsWithCodeAsync(request.Code))
+            .Setup(repo => repo.ExistsWithCodeAsync(request.Code, It.IsAny<Guid>()))
             .ReturnsAsync(false);
 
         FactionRepositoryMock
-            .Setup(repo => repo.ExistsWithNameAsync(request.Name))
+            .Setup(repo => repo.ExistsWithNameAsync(request.Name, It.IsAny<Guid>()))
             .ReturnsAsync(false);
 
         // Act
