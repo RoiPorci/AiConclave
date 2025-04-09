@@ -10,16 +10,7 @@ namespace AiConclave.Business.Tests.CreateFactionTests.Helpers;
 /// </summary>
 public class CreateFactionCommandBuilder
 {
-    private readonly TestPresenter<CreateFactionResponse> _presenter;
-    private string _code = "TST";
-    private string _name = "TestName";
-    private string _description = "TestDescription";
-    private List<ResourceAmountDto> _resourceAmounts = Resource.All.Select(r =>
-    {
-        // Simple distribution: each resource receives 10, except CO2 which receives 0
-        var amount = r.Code == Resource.Co2.Code ? 0 : 10;
-        return new ResourceAmountDto(r.Code, amount);
-    }).ToList();
+    private readonly CreateFactionCommand _command;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CreateFactionCommandBuilder" /> class.
@@ -27,7 +18,17 @@ public class CreateFactionCommandBuilder
     /// <param name="presenter">The test presenter to be used in the command.</param>
     public CreateFactionCommandBuilder(TestPresenter<CreateFactionResponse> presenter)
     {
-        _presenter = presenter;
+        _command = new CreateFactionCommand(
+            "TST", // Default code
+            "TestName", // Default name
+            "TestDescription", // Default description
+            Resource.All.Select(r => 
+            {
+                var amount = r.Code == Resource.Co2.Code ? 0 : 10;
+                return new ResourceAmountDto(r.Code, amount);
+            }).ToList(), // Default resources
+            presenter
+        );
     }
 
     /// <summary>
@@ -37,7 +38,7 @@ public class CreateFactionCommandBuilder
     /// <returns>The current <see cref="CreateFactionCommandBuilder" /> instance.</returns>
     public CreateFactionCommandBuilder WithCode(string code)
     {
-        _code = code;
+        _command.Code = code;
         return this;
     }
 
@@ -48,7 +49,7 @@ public class CreateFactionCommandBuilder
     /// <returns>The current <see cref="CreateFactionCommandBuilder" /> instance.</returns>
     public CreateFactionCommandBuilder WithName(string name)
     {
-        _name = name;
+        _command.Name = name;
         return this;
     }
 
@@ -59,7 +60,7 @@ public class CreateFactionCommandBuilder
     /// <returns>The current <see cref="CreateFactionCommandBuilder" /> instance.</returns>
     public CreateFactionCommandBuilder WithDescription(string description)
     {
-        _description = description;
+        _command.Description = description;
         return this;
     }
 
@@ -71,11 +72,11 @@ public class CreateFactionCommandBuilder
     /// <returns>The current <see cref="CreateFactionCommandBuilder" /> instance.</returns>
     public CreateFactionCommandBuilder WithResource(Resource resource, int amount)
     {
-        var existing = _resourceAmounts.FirstOrDefault(r => r.ResourceCode == resource.Code);
+        var existing = _command.ResourceAmounts.FirstOrDefault(r => r.ResourceCode == resource.Code);
         if (existing != null)
             existing.Amount = amount;
         else
-            _resourceAmounts.Add(new ResourceAmountDto(resource.Code, amount));
+            _command.ResourceAmounts.Add(new ResourceAmountDto(resource.Code, amount));
 
         return this;
     }
@@ -87,16 +88,16 @@ public class CreateFactionCommandBuilder
     /// <returns>The current <see cref="CreateFactionCommandBuilder" /> instance.</returns>
     public CreateFactionCommandBuilder WithResourceAmounts(List<ResourceAmountDto> amounts)
     {
-        _resourceAmounts = amounts;
+        _command.ResourceAmounts = amounts;
         return this;
     }
 
     /// <summary>
     ///     Builds a <see cref="CreateFactionCommand" /> instance with the configured values.
     /// </summary>
-    /// <returns>A new <see cref="CreateFactionCommand" />.</returns>
+    /// <returns>A new <see cref="CreateFactionCommand" />The constructed command instance.</returns>
     public CreateFactionCommand Build()
     {
-        return new CreateFactionCommand(_code, _name, _description, _resourceAmounts, _presenter);
+        return _command;
     }
 }
